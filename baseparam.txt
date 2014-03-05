@@ -1,0 +1,3 @@
+user_name=SYSDBA
+lc_ctype=WIN1251
+password=masterkey

@@ -1,7 +1,7 @@
 object DM: TDM
   OldCreateOrder = False
-  Left = 312
-  Top = 128
+  Left = 387
+  Top = 182
   Height = 258
   Width = 336
   object ibqry1: TIBQuery
@@ -17,6 +17,7 @@ object DM: TDM
     Top = 40
   end
   object ds1: TDataSource
+    DataSet = ibqry1
     Left = 184
     Top = 136
   end
@@ -39,5 +40,11 @@ object DM: TDM
     DataSet = ibtbl1
     Left = 224
     Top = 40
+  end
+  object ibqry2: TIBQuery
+    Database = ibdtbs1
+    Transaction = ibtrnsctn1
+    Left = 112
+    Top = 120
   end
 end

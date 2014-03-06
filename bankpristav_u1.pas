@@ -23,10 +23,13 @@ type
     N5: TMenuItem;
     mmo1: TMemo;
     btn3: TButton;
+    btn4: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure N4Click(Sender: TObject);
     procedure btn2Click(Sender: TObject);
+    procedure btn4Click(Sender: TObject);
+    procedure btn3Click(Sender: TObject);
     //procedure btn3Click(Sender: TObject);
      //procedure LoadDBF(Filename:String);
 
@@ -106,7 +109,7 @@ While FindRes=0 do
      while not eof(f) do
      ReadLn(f, s); }
      mmo1.Lines.Add(DM.ibtbl1.FieldByName('INPATH').AsString+SR.Name);
-     LoadDBF(DM.ibtbl1.FieldByName('INPATH').AsString+SR.Name);
+     //LoadDBF(DM.ibtbl1.FieldByName('INPATH').AsString+SR.Name);
 
      FindRes:=FindNext(SR);
       end;
@@ -115,10 +118,33 @@ end;
 procedure LoadDBF(Filename:String);
  var
    i:Integer;
+   pk,packed_id:integer;
+   dtnow:TDate;
    Tbl1:TDBF;
+   sqlstr:AnsiString;
 begin
+  dtnow:=Now;
      Tbl1:=TDBF.Create(Form1);
-
+     sqlstr:='INSERT INTO REQUESTS (PK, PACKET_ID, FILENAME, UNICODE, ORGAN, FIOISP, NUMISP, DT, FIZUR, FIOORG, DATE_R, ADRESS, PASSPORT, SUMM, PROCESSED, ANSWERID, DATELOAD) VALUES (';
+     //'NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)';
+//Определение PK
+//Определение Packer_id
+dm.i
+'SELECT GEN_ID(PK_PACKETS, 1>) FROM RDB$DATABASE;'
+//C:\bankpristav\In\rz_0902_10.12.2013_3.dbf
+//
+//UNICODE
+//ORGAN
+//FIOISP
+//NUMISP
+//DT
+//NUM
+//FIZUR
+//FIOORG
+//DATE_R
+//ADRESS
+//PASSPORT
+//SUMM
  // Tbl1.TableName:=DM.ibtbl1.FieldByName('INPATH').AsString+ mmo1.Lines[0];Tbl1.
  Tbl1.TableName:= FileName;
 
@@ -133,8 +159,23 @@ form1.Caption:=IntToStr( Tbl1.RecordCount );
 Form1.mmo1.Lines.Add(Tbl1.GetFieldData(9))   ;
 
 Tbl1.Close;
-
+Form1.mmo1.Lines.Add(DateToStr(dtnow));
 end;
 //procedure LoadDBF (File)
 
+procedure TForm1.btn4Click(Sender: TObject);
+begin
+Form1.mmo1.Lines.Add('!')  ;
+//if DM.ibdtbs1.Connected then   Form1.mmo1.Lines.Add('con')
+LoadDBF('C:\bankpristav\In\rz_0902_10.12.2013_1.dbf');
+
+
+end;
+
+procedure TForm1.btn3Click(Sender: TObject);
+begin
+form1.dbgrd1.DataSource:=DM.ds1 ;
+dm.ibqry1.SQL.Text:='select * from requests'  ;
+dm.ibqry1.Open;
+end;
 end.

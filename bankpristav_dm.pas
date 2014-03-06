@@ -14,6 +14,7 @@ type
     ibtrnsctn1: TIBTransaction;
     ibtbl1: TIBTable;
     ds3: TDataSource;
+    ibqry2: TIBQuery;
   private
     { Private declarations }
   public

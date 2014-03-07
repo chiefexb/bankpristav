@@ -3,7 +3,8 @@ unit bankpristav_dm;
 interface
 
 uses
-  SysUtils, Classes, DB, IBDatabase, IBCustomDataSet, IBQuery, IBTable;
+  SysUtils, Classes, DB, IBDatabase, IBCustomDataSet, IBQuery, IBTable,
+  IBSQL;
 
 type
   TDM = class(TDataModule)
@@ -15,6 +16,7 @@ type
     ibtbl1: TIBTable;
     ds3: TDataSource;
     ibqry2: TIBQuery;
+    ibsql2: TIBSQL;
   private
     { Private declarations }
   public

@@ -129,8 +129,18 @@ begin
      //'NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)';
 //Определение PK
 //Определение Packer_id
-dm.i
-'SELECT GEN_ID(PK_PACKETS, 1>) FROM RDB$DATABASE;'
+//dm.ibqry2.SQL.Text:='SELECT GEN_ID(PK_PACKETS, 1) FROM RDB$DATABASE';
+//DM.ibqry2.ExecSQL;
+//Dm.ibqry2.Close;
+//dm.ibqry2
+dm.ibqry2.SQL.Clear;
+dm.ibqry2.SQL.Text:='SELECT GEN_ID(PK_PACKETS, 0) FROM RDB$DATABASE';
+DM.ibqry2.Open;
+//DM.ibqry2.DataSource.DataSet.First;
+//PK:=DM.ibqry2.DataSource.DataSet.FieldByName('GEN_ID').AsInteger;
+Form1.mmo1.Lines.Add(IntToStr(dm.ibqry2.RecordCount)) ;
+//packed_id:=DM.ibqry2.DataSource.DataSet.FieldValues['GEN_ID'].asInteger;
+//.Fields[0].AsInteger;
 //C:\bankpristav\In\rz_0902_10.12.2013_3.dbf
 //
 //UNICODE
@@ -160,6 +170,7 @@ Form1.mmo1.Lines.Add(Tbl1.GetFieldData(9))   ;
 
 Tbl1.Close;
 Form1.mmo1.Lines.Add(DateToStr(dtnow));
+Form1.mmo1.Lines.Add(intToStr(packed_id));
 end;
 //procedure LoadDBF (File)
 

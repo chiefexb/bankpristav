@@ -33,6 +33,7 @@ type
     procedure btn4Click(Sender: TObject);
     procedure btn3Click(Sender: TObject);
     procedure test1Click(Sender: TObject);
+    procedure dbgrd1DblClick(Sender: TObject);
     //procedure btn3Click(Sender: TObject);
      //procedure LoadDBF(Filename:String);
 
@@ -51,7 +52,7 @@ var
     procedure LoadDBF(Filename:String);
 implementation
 
-uses bankpristav_dm, bankpristav_u3;
+uses bankpristav_dm, bankpristav_u3, bankpristav_u2;
 
 
 
@@ -210,6 +211,11 @@ function Getgenerator(genname:string):Integer;
 procedure TForm1.test1Click(Sender: TObject);
 begin
   mmo1.Lines.Add(form1.dbgrd1.SelectedRows.Items[0]);
+end;
+
+procedure TForm1.dbgrd1DblClick(Sender: TObject);
+begin
+ form2.show;
 end;
 
 end.

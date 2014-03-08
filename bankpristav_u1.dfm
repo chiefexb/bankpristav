@@ -68,6 +68,7 @@ object Form1: TForm1
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    OnDblClick = dbgrd1DblClick
   end
   object btn2: TButton
     Left = 304

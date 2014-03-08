@@ -1,7 +1,7 @@
 object DM: TDM
   OldCreateOrder = False
-  Left = 604
-  Top = 137
+  Left = 716
+  Top = 222
   Height = 389
   Width = 483
   object ibqry1: TIBQuery

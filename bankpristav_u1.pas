@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, ComCtrls, ToolWin, DB, IBCustomDataSet, IBQuery, IBSQL,
   IBDatabase, StdCtrls, Grids, DBGrids, ADODB,dbf;
-
+    function Getgenerator(genname:string):Integer;
 type
   TForm1 = class(TForm)
     mm1: TMainMenu;
@@ -121,51 +121,44 @@ procedure LoadDBF(Filename:String);
    pk,packed_id:integer;
    dtnow:TDate;
    Tbl1:TDBF;
-   sqlstr:AnsiString;
+   flstr,sq,sqlstr:AnsiString;
+
 begin
   dtnow:=Now;
-     Tbl1:=TDBF.Create(Form1);
-     sqlstr:='INSERT INTO REQUESTS (PK, PACKET_ID, FILENAME, UNICODE, ORGAN, FIOISP, NUMISP, DT, FIZUR, FIOORG, DATE_R, ADRESS, PASSPORT, SUMM, PROCESSED, ANSWERID, DATELOAD) VALUES (';
-     //'NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)';
-//Определение PK
-//Определение Packer_id
-//dm.ibqry2.SQL.Text:='SELECT GEN_ID(PK_PACKETS, 1) FROM RDB$DATABASE';
-//DM.ibqry2.ExecSQL;
-//Dm.ibqry2.Close;
-//dm.ibqry2
-dm.ibqry2.SQL.Clear;
-dm.ibqry2.SQL.Text:='SELECT GEN_ID(PK_PACKETS, 0) FROM RDB$DATABASE';
-DM.ibqry2.Open;
-//DM.ibqry2.DataSource.DataSet.First;
-//PK:=DM.ibqry2.DataSource.DataSet.FieldByName('GEN_ID').AsInteger;
-Form1.mmo1.Lines.Add(IntToStr(dm.ibqry2.RecordCount)) ;
-//packed_id:=DM.ibqry2.DataSource.DataSet.FieldValues['GEN_ID'].asInteger;
-//.Fields[0].AsInteger;
-//C:\bankpristav\In\rz_0902_10.12.2013_3.dbf
-//
-//UNICODE
-//ORGAN
-//FIOISP
-//NUMISP
-//DT
-//NUM
-//FIZUR
-//FIOORG
-//DATE_R
-//ADRESS
-//PASSPORT
-//SUMM
- // Tbl1.TableName:=DM.ibtbl1.FieldByName('INPATH').AsString+ mmo1.Lines[0];Tbl1.
- Tbl1.TableName:= FileName;
-
-
-Tbl1.Open;
-Tbl1.CodePage:=OEM;
-form1.Caption:=IntToStr( Tbl1.RecordCount );
+  Tbl1:=TDBF.Create(Form1);
+  packed_id:= Getgenerator('PK_PACKETS');
+  Form1.mmo1.Lines.Add('PK='+ IntToStr(pk)) ;
+  Tbl1.TableName:= FileName;
+  Tbl1.Open;
+  Tbl1.CodePage:=OEM;
+  form1.Caption:=IntToStr( Tbl1.RecordCount );
 //Список полей
   for i:=1 to Tbl1.FieldCount    do
     Form1.mmo1.lines.Add(Tbl1.GetFieldName(i))    ;
     //Tbl1.get
+   sqlstr:='INSERT INTO REQUESTS (PK, PACKET_ID, FILENAME, UNICODE, ORGAN, FIOISP, NUMISP, DT, NUM, FIZUR, FIOORG, DATE_R, ADRESS, PASSPORT, SUMM, PROCESSED, ANSWERID, DATELOAD) VALUES (';
+  sq:=sqlstr;
+  repeat
+    pk:=getgenerator('PK_REQUESTS') ;
+    sq:=sq+InttoStr(pk)+', '+IntToStr(packed_id)+', '+quotedstr( ExtractFileName(filename))+', ';
+    for i:=1 to Tbl1.FieldCount    do begin
+      if Tbl1.GetFieldType(i) in [bfBoolean, bfNumber, bfFloat] then   begin
+       flstr:= StringReplace(Tbl1.GetFieldData(i), ',', '.', [rfReplaceAll, rfIgnoreCase]);
+       sq:=sq+flstr+', ';
+       end
+       else begin
+      flstr:=Tbl1.getfielddata(i);
+      if Length(flstr)>0 then
+       sq:=sq+ QuotedStr(flstr )+', '
+      else
+       sq:=sq+'Null, '
+       end
+    end;
+    sq:=sq+'NULL, NULL, '+quotedstr(DateToStr(dtnow))+' )';
+    Tbl1.next;
+    Form1.mmo1.Lines.add(sq);
+    sq:=sqlstr;
+  until Tbl1.Eof;
 Form1.mmo1.Lines.Add(Tbl1.GetFieldData(9))   ;
 
 Tbl1.Close;
@@ -189,4 +182,13 @@ form1.dbgrd1.DataSource:=DM.ds1 ;
 dm.ibqry1.SQL.Text:='select * from requests'  ;
 dm.ibqry1.Open;
 end;
+function Getgenerator(genname:string):Integer;
+ begin
+   dm.ibqry2.SQL.Clear;
+  dm.ibqry2.SQL.Text:='SELECT GEN_ID('+genname+', 1) FROM RDB$DATABASE';
+  DM.ibqry2.Open;
+  Getgenerator:= dm.IBQry2.Fields[0].AsInteger;
+ DM.ibqry2.Close;
+
+ end;
 end.

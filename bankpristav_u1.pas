@@ -24,12 +24,15 @@ type
     mmo1: TMemo;
     btn3: TButton;
     btn4: TButton;
+    pm1: TPopupMenu;
+    test1: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure N4Click(Sender: TObject);
     procedure btn2Click(Sender: TObject);
     procedure btn4Click(Sender: TObject);
     procedure btn3Click(Sender: TObject);
+    procedure test1Click(Sender: TObject);
     //procedure btn3Click(Sender: TObject);
      //procedure LoadDBF(Filename:String);
 
@@ -58,7 +61,7 @@ procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
  DM.ibtbl1.Active:=false;
 
-DM.ibtrnsctn1.Commit;
+//DM.ibtrnsctn1.Commit;
 DM.ibtrnsctn1.Active :=False;
 DM.ibdtbs1.Close;
 end;
@@ -124,6 +127,7 @@ procedure LoadDBF(Filename:String);
    flstr,sq,sqlstr:AnsiString;
 
 begin
+  pk:=0;
   dtnow:=Now;
   Tbl1:=TDBF.Create(Form1);
   packed_id:= Getgenerator('PK_PACKETS');
@@ -157,6 +161,11 @@ begin
     sq:=sq+'NULL, NULL, '+quotedstr(DateToStr(dtnow))+' )';
     Tbl1.next;
     Form1.mmo1.Lines.add(sq);
+    dm.ibqry2.SQL.Text:=sq;
+    Dm.ibtrnsctn1.Active:=true;
+    DM.ibqry2.ExecSQL;
+    DM.ibtrnsctn1.Commit;
+    DM.ibqry2.close;
     sq:=sqlstr;
   until Tbl1.Eof;
 Form1.mmo1.Lines.Add(Tbl1.GetFieldData(9))   ;
@@ -177,10 +186,17 @@ LoadDBF('C:\bankpristav\In\rz_0902_10.12.2013_1.dbf');
 end;
 
 procedure TForm1.btn3Click(Sender: TObject);
+var
+  i:integer;
 begin
 form1.dbgrd1.DataSource:=DM.ds1 ;
 dm.ibqry1.SQL.Text:='select * from requests'  ;
 dm.ibqry1.Open;
+
+for i:=0 to DM.ibqry1.Fields.Count-1 do  begin
+ dm.ibqry1.Fields[i].DisplayWidth:=20;
+// dm.ibqry1.Fields[i].s`
+ end;
 end;
 function Getgenerator(genname:string):Integer;
  begin
@@ -191,4 +207,9 @@ function Getgenerator(genname:string):Integer;
  DM.ibqry2.Close;
 
  end;
+procedure TForm1.test1Click(Sender: TObject);
+begin
+  mmo1.Lines.Add(form1.dbgrd1.SelectedRows.Items[0]);
+end;
+
 end.

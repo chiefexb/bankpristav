@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 221
-  Top = 95
+  Left = 251
+  Top = 131
   Width = 886
   Height = 572
   Caption = #1041#1072#1085#1082' '#1055#1088#1080#1089#1090#1072#1074
@@ -60,6 +60,8 @@ object Form1: TForm1
     Width = 878
     Height = 420
     Align = alTop
+    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
+    PopupMenu = pm1
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -111,6 +113,14 @@ object Form1: TForm1
     end
     object N5: TMenuItem
       Caption = #1057#1087#1088#1072#1074#1082#1072
+    end
+  end
+  object pm1: TPopupMenu
+    Left = 640
+    Top = 8
+    object test1: TMenuItem
+      Caption = 'test'
+      OnClick = test1Click
     end
   end
 end

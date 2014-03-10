@@ -12,6 +12,7 @@ type
     mmo2: TMemo;
     dbgrd1: TDBGrid;
     btn1: TButton;
+    dbgrd2: TDBGrid;
     procedure FormShow(Sender: TObject);
     procedure btn1Click(Sender: TObject);
   private
@@ -50,7 +51,14 @@ end;
 procedure TForm2.btn1Click(Sender: TObject);
 begin
  DM.ibqry3.SQL.Clear;
- DM.ibqry3.SQL.Text:=''
+ DM.ibqry3.SQL.Text:='select * from answer';
+ DM.ibqry3.Open;
+ form2.dbgrd1.DataSource:=DM.ds3;
+  DM.ibqry4.SQL.Clear;
+ DM.ibqry4.SQL.Text:='select * from acc_data';
+ DM.ibqry4.Open;
+ form2.dbgrd2.DataSource:=DM.ds4;
+
  //DM.
 end;
 

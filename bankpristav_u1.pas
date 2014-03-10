@@ -58,7 +58,7 @@ uses bankpristav_dm, bankpristav_u3, bankpristav_u2;
 
 procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
- DM.ibtbl1.Active:=false;
+ //DM.ibtbl1.Active:=false;
 
 //DM.ibtrnsctn1.Commit;
 DM.ibtrnsctn1.Active :=False;
@@ -74,9 +74,9 @@ if  not DM.ibdtbs1.Connected then begin
   DM.ibdtbs1.Params.LoadFromFile(ExtractFilePath(application.exename)+'baseparam.txt' );
   dm.ibdtbs1.Open;
   DM.ibtrnsctn1.Active:=True;
-  Dm.ibtbl1.Database:=DM.ibdtbs1;
-  DM.ibtbl1.TableName:='DIVINFO';
-  DM.ibtbl1.Active:=True;
+ // Dm.ibtbl1.Database:=DM.ibdtbs1;
+ // DM.ibtbl1.TableName:='DIVINFO';
+  //DM.ibtbl1.Active:=True;
 
   dm.ibqry1.SQL.Text:='select * from requests'  ;
   dm.ibqry1.Open;
@@ -96,10 +96,10 @@ end;
 
 procedure TForm1.N4Click(Sender: TObject);
 begin
-DM.ibtbl1.First;
-DM.ibtbl1.Edit;
-if form3.ShowModal=mrOk then DM.ibtbl1.Post
-else    DM.ibtbl1.Cancel;
+//DM.ibtbl1.First;
+//DM.ibtbl1.Edit;
+//if form3.ShowModal=mrOk then DM.ibtbl1.Post
+//else    DM.ibtbl1.Cancel;
 end;
 
 procedure TForm1.btn2Click(Sender: TObject);
@@ -108,7 +108,7 @@ procedure TForm1.btn2Click(Sender: TObject);
     FindRes:Integer;
     path:string;
 begin
-  path:=DM.ibtbl1.FieldByName('INPATH').AsString;
+  //path:=DM.ibtbl1.FieldByName('INPATH').AsString;
      mmo1.Lines.Clear;
 FindRes:=FindFirst(path+'*.*',faAnyFile,SR);
 While FindRes=0 do
@@ -125,7 +125,7 @@ While FindRes=0 do
      Reset(f);
      while not eof(f) do
      ReadLn(f, s); }
-     mmo1.Lines.Add(DM.ibtbl1.FieldByName('INPATH').AsString+SR.Name);
+//     mmo1.Lines.Add(DM.ibtbl1.FieldByName('INPATH').AsString+SR.Name);
      //LoadDBF(DM.ibtbl1.FieldByName('INPATH').AsString+SR.Name);
 
      FindRes:=FindNext(SR);

@@ -1,6 +1,6 @@
 object Form3: TForm3
-  Left = 353
-  Top = 174
+  Left = 257
+  Top = 189
   BorderStyle = bsDialog
   Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
   ClientHeight = 417
@@ -38,29 +38,6 @@ object Form3: TForm3
     Caption = #1055#1088#1080#1084#1077#1085#1080#1090#1100
     ModalResult = 1
     TabOrder = 0
-  end
-  object dbedtINPATH: TDBEdit
-    Left = 8
-    Top = 24
-    Width = 369
-    Height = 21
-    Hint = #1044#1074#1086#1081#1085#1086#1081' '#1097#1077#1083#1095#1086#1082' '#1076#1083#1103' '#1074#1099#1073#1086#1088#1072' '#1087#1072#1087#1082#1080
-    DataField = 'INPATH'
-    DataSource = DM.ds3
-    ParentShowHint = False
-    ShowHint = True
-    TabOrder = 1
-    OnDblClick = dbedtINPATHDblClick
-  end
-  object dbedtINARCPATH: TDBEdit
-    Left = 8
-    Top = 64
-    Width = 369
-    Height = 21
-    DataField = 'INARCPATH'
-    DataSource = DM.ds3
-    TabOrder = 2
-    OnDblClick = dbedtINARCPATHDblClick
   end
   object dlgOpen1: TOpenDialog
     Left = 808

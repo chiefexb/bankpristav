@@ -13,10 +13,11 @@ type
     ds1: TDataSource;
     ds2: TDataSource;
     ibtrnsctn1: TIBTransaction;
-    ibtbl1: TIBTable;
     ds3: TDataSource;
     ibqry2: TIBQuery;
     ibqry3: TIBQuery;
+    ds4: TDataSource;
+    ibqry4: TIBQuery;
   private
     { Private declarations }
   public

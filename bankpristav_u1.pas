@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, ComCtrls, ToolWin, DB, IBCustomDataSet, IBQuery, IBSQL,
   IBDatabase, StdCtrls, Grids, DBGrids, ADODB,dbf;
-    function Getgenerator(genname:string):Integer;
+  
 type
   TForm1 = class(TForm)
     mm1: TMainMenu;
@@ -16,22 +16,20 @@ type
     btn1: TToolButton;
     dbgrd1: TDBGrid;
     btn2: TButton;
-    lbl1: TLabel;
     lbl2: TLabel;
     N3: TMenuItem;
     N4: TMenuItem;
     N5: TMenuItem;
     mmo1: TMemo;
-    btn3: TButton;
     btn4: TButton;
     pm1: TPopupMenu;
     test1: TMenuItem;
+    CheckBox1: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure N4Click(Sender: TObject);
     procedure btn2Click(Sender: TObject);
     procedure btn4Click(Sender: TObject);
-    procedure btn3Click(Sender: TObject);
     procedure test1Click(Sender: TObject);
     procedure dbgrd1DblClick(Sender: TObject);
     //procedure btn3Click(Sender: TObject);
@@ -68,6 +66,8 @@ DM.ibdtbs1.Close;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
+var
+   i:integer;
 begin
 if  not DM.ibdtbs1.Connected then begin
   dm.ibdtbs1.DatabaseName:=ExtractFilePath(application.exename)+'REQ.FDB';
@@ -77,6 +77,19 @@ if  not DM.ibdtbs1.Connected then begin
   Dm.ibtbl1.Database:=DM.ibdtbs1;
   DM.ibtbl1.TableName:='DIVINFO';
   DM.ibtbl1.Active:=True;
+
+  dm.ibqry1.SQL.Text:='select * from requests'  ;
+  dm.ibqry1.Open;
+  for i:=0 to dm.ibqry1.Fields.count-1 do begin
+    dm.ibqry2.SQL.Clear;
+   dm.ibqry2.SQL.Text:='select * from Description where tablename=upper('+quotedStr('Requests')+') and fieldorder='+IntToStr(i);
+   DM.ibqry2.Open;
+
+   dm.ibqry1.Fields[i].DisplayLabel:=DM.ibqry2.Fields[2].asString;
+   dm.ibqry1.Fields[i].DisplayWidth:=DM.ibqry2.Fields[3].AsInteger;
+  end;
+  form1.dbgrd1.DataSource:=DM.ds1 ;
+
 end;
 
 end;
@@ -186,28 +199,7 @@ LoadDBF('C:\bankpristav\In\rz_0902_10.12.2013_1.dbf');
 
 end;
 
-procedure TForm1.btn3Click(Sender: TObject);
-var
-  i:integer;
-begin
-form1.dbgrd1.DataSource:=DM.ds1 ;
-dm.ibqry1.SQL.Text:='select * from requests'  ;
-dm.ibqry1.Open;
 
-for i:=0 to DM.ibqry1.Fields.Count-1 do  begin
- dm.ibqry1.Fields[i].DisplayWidth:=20;
-// dm.ibqry1.Fields[i].s`
- end;
-end;
-function Getgenerator(genname:string):Integer;
- begin
-   dm.ibqry2.SQL.Clear;
-  dm.ibqry2.SQL.Text:='SELECT GEN_ID('+genname+', 1) FROM RDB$DATABASE';
-  DM.ibqry2.Open;
-  Getgenerator:= dm.IBQry2.Fields[0].AsInteger;
- DM.ibqry2.Close;
-
- end;
 procedure TForm1.test1Click(Sender: TObject);
 begin
   mmo1.Lines.Add(form1.dbgrd1.SelectedRows.Items[0]);

@@ -5,7 +5,7 @@ interface
 uses
   SysUtils, Classes, DB, IBDatabase, IBCustomDataSet, IBQuery, IBTable,
   IBSQL;
-
+  function Getgenerator(genname:string):Integer;
 type
   TDM = class(TDataModule)
     ibqry1: TIBQuery;
@@ -16,7 +16,7 @@ type
     ibtbl1: TIBTable;
     ds3: TDataSource;
     ibqry2: TIBQuery;
-    ibsql2: TIBSQL;
+    ibqry3: TIBQuery;
   private
     { Private declarations }
   public
@@ -27,7 +27,15 @@ var
   DM: TDM;
 
 implementation
+function Getgenerator(genname:string):Integer;
+ begin
+   dm.ibqry2.SQL.Clear;
+  dm.ibqry2.SQL.Text:='SELECT GEN_ID('+genname+', 1) FROM RDB$DATABASE';
+  DM.ibqry2.Open;
+  Getgenerator:= dm.IBQry2.Fields[0].AsInteger;
+ DM.ibqry2.Close;
 
+ end;
 {$R *.dfm}
 
 end.

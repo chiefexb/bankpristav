@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 251
-  Top = 131
+  Left = 253
+  Top = 75
   Width = 886
   Height = 572
   Caption = #1041#1072#1085#1082' '#1055#1088#1080#1089#1090#1072#1074
@@ -17,13 +17,6 @@ object Form1: TForm1
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object lbl1: TLabel
-    Left = 88
-    Top = 40
-    Width = 157
-    Height = 13
-    Caption = #1042#1093#1086#1076#1103#1097#1080#1077' /'#1080#1089#1093#1086#1076#1103#1097#1080#1077' '#1087#1072#1082#1077#1090#1099
-  end
   object lbl2: TLabel
     Left = 16
     Top = 232
@@ -44,22 +37,12 @@ object Form1: TForm1
       Caption = 'btn1'
       ImageIndex = 0
     end
-    object btn3: TButton
-      Left = 23
-      Top = 2
-      Width = 75
-      Height = 22
-      Caption = 'btn3'
-      TabOrder = 0
-      OnClick = btn3Click
-    end
   end
   object dbgrd1: TDBGrid
     Left = 0
-    Top = 29
-    Width = 878
-    Height = 420
-    Align = alTop
+    Top = 64
+    Width = 861
+    Height = 264
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
     PopupMenu = pm1
     TabOrder = 1
@@ -71,8 +54,8 @@ object Form1: TForm1
     OnDblClick = dbgrd1DblClick
   end
   object btn2: TButton
-    Left = 304
-    Top = 0
+    Left = 584
+    Top = 344
     Width = 75
     Height = 25
     Caption = 'btn2'
@@ -88,17 +71,25 @@ object Form1: TForm1
     TabOrder = 3
   end
   object btn4: TButton
-    Left = 424
-    Top = 0
+    Left = 672
+    Top = 336
     Width = 75
     Height = 25
     Caption = 'btn4'
     TabOrder = 4
     OnClick = btn4Click
   end
+  object CheckBox1: TCheckBox
+    Left = 8
+    Top = 40
+    Width = 97
+    Height = 17
+    Caption = #1054#1073#1088#1072#1073#1086#1090#1072#1085
+    TabOrder = 5
+  end
   object mm1: TMainMenu
-    Left = 312
-    Top = 32
+    Left = 696
+    Top = 8
     object N1: TMenuItem
       Caption = #1060#1072#1081#1083
       object N2: TMenuItem

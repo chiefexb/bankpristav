@@ -47,8 +47,8 @@ object DM: TDM
     Left = 112
     Top = 120
   end
-  object ibsql2: TIBSQL
-    Left = 288
+  object ibqry3: TIBQuery
+    Left = 328
     Top = 40
   end
 end

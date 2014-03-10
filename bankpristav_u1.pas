@@ -25,6 +25,7 @@ type
     pm1: TPopupMenu;
     test1: TMenuItem;
     CheckBox1: TCheckBox;
+    btn3: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure N4Click(Sender: TObject);
@@ -32,6 +33,7 @@ type
     procedure btn4Click(Sender: TObject);
     procedure test1Click(Sender: TObject);
     procedure dbgrd1DblClick(Sender: TObject);
+    procedure btn3Click(Sender: TObject);
     //procedure btn3Click(Sender: TObject);
      //procedure LoadDBF(Filename:String);
 
@@ -208,6 +210,31 @@ end;
 procedure TForm1.dbgrd1DblClick(Sender: TObject);
 begin
  form2.show;
+end;
+
+procedure TForm1.btn3Click(Sender: TObject);
+var
+tbl1:TDBF;
+begin
+  Tbl1:=TDBF.Create(Form1);
+  //UNICODE,N,10,0	ID_ZAPR,N,10,0	NUMISP,C,40	DT,D	NUM,C,40	NUMRES,C,40	DTRES,D	RESULT,N,4,0	TEXT,C,253	FILENAME,C,30
+  tbl1.AddFieldDefs('UNICODE',bfNumber,10,0);
+  tbl1.AddFieldDefs('NUMISP',bfString,40,0 );
+  tbl1.AddFieldDefs('DT',bfDate,8,0);
+  tbl1.AddFieldDefs('NUM',bfString,40,0 );
+  tbl1.AddFieldDefs('NUMRES',bfString,40,0);
+  tbl1.AddFieldDefs('DTRES',bfDate,8,0);
+  tbl1.AddFieldDefs('RESULT',bfNumber,4,0);
+  tbl1.AddFieldDefs('TEXT',bfString,253,0);
+  tbl1.AddFieldDefs('FILENAME',bfString,30,0);
+
+  tbl1.TableName:=ExtractFilePath(Application.ExeName)+ 'rez.dbf';
+
+  tbl1.CreateTable;
+  tbl1.CodePage:=OEM;
+  tbl1.Append;
+  tbl1.Post;
+  tbl1.Close;
 end;
 
 end.

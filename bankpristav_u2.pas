@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Grids, DBGrids, ToolWin, ComCtrls, StdCtrls,StrUtils;
+  Dialogs, Grids, DBGrids, ToolWin, ComCtrls, StdCtrls,StrUtils, Buttons;
 
 type
   TForm2 = class(TForm)
@@ -13,8 +13,11 @@ type
     dbgrd1: TDBGrid;
     btn1: TButton;
     dbgrd2: TDBGrid;
+    btn2: TBitBtn;
+    btn3: TBitBtn;
     procedure FormShow(Sender: TObject);
     procedure btn1Click(Sender: TObject);
+    procedure btn3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -60,6 +63,33 @@ begin
  form2.dbgrd2.DataSource:=DM.ds4;
 
  //DM.
+end;
+
+procedure TForm2.btn3Click(Sender: TObject);
+var
+  pkans:Integer;
+  sql,sq:AnsiString;
+begin
+ pkans:=Getgenerator('PK_ANSWER');
+ sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, RESULT, TEXT, FILENAME) VALUES (';
+  sq:=sql;
+  sq:=sq+IntToStr(pkans)+', ';
+
+  sq:=sq+(DM.ibqry1.FieldByName('UNICODE').asString)+', '   ;
+  sq:=sq+(DM.ibqry1.FieldByName('PK').asString)+', '   ;
+  sq:=sq+quotedstr(DM.ibqry1.FieldByName('NUMISP').asString)+', '   ;
+  sq:=sq+quotedstr(DM.ibqry1.FieldByName('DT').asString)+', '   ;
+  sq:=sq+quotedstr(DM.ibqry1.FieldByName('NUM').asString)+', '   ;
+  sq:=sq+QuotedStr('/')+', ';
+  sq:=sq+QuotedStr(DateToStr(now))+', ';
+  sq:=sq+intToStr(1)+', ';
+  sq:=sq+QuotedStr('Нет счетов')+', Null)' ;
+  mmo2.Lines.Add(sq) ;
+  DM.ibqry2.SQL.Clear;
+  DM.ibqry2.SQL.Text:=sq;
+  DM.ibqry2.ExecSQL;
+  DM.ibtrnsctn1.Commit;
+  dbgrd1.Refresh;
 end;
 
 end.

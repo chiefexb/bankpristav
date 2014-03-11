@@ -18,6 +18,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure btn1Click(Sender: TObject);
     procedure btn3Click(Sender: TObject);
+    procedure btn2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -90,6 +91,11 @@ begin
   DM.ibqry2.ExecSQL;
   DM.ibtrnsctn1.Commit;
   dbgrd1.Refresh;
+end;
+
+procedure TForm2.btn2Click(Sender: TObject);
+begin
+//  счет 42307810860311008389 8585/1 Остаток 194 RUR
 end;
 
 end.

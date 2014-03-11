@@ -242,14 +242,23 @@ begin
   tbl1.CodePage:=OEM;
   //tbl1.Append;
   tbl1.Insert;
-  for i:=1 to 12 do begin
-
-  if tbl1.GetFieldType(i+1)=bfDate then  begin
+  for i:=1 to tbl1.FieldCount do begin
+  st:='';
+  if tbl1.GetFieldType(i)=bfDate then  begin
    DecodeDateTime(DM.ibqry3.Fields[i+1].AsDateTime,y,m,d,h,mm,ss,ms);
-   st:=IntToStr(d)+'.'+intTostr(m)+'.'+IntToStr(y)[3]+InttoStr(y)[4]  ;
-   tbl1.SetFieldData(i+1,st);
+   if d<10 then st:=st+'0';
+   st:=st+IntToStr(d)+'.';
+   if m<10 then st:=st+'0';
+   st:=st+intTostr(m)+'.'+IntToStr(y)[3]+InttoStr(y)[4]  ;
+   tbl1.SetFieldData(i,st);
   end else
-  tbl1.SetFieldData(i,DM.ibqry3.Fields[i+1].AsString);
+   if   tbl1.GetFieldType(i)=bfString then  begin
+    st:=  DM.ibqry3.Fields[i+1].AsString ;
+    tbl1.Translate(st,st,True) ;
+    tbl1.SetFieldData(i,st);
+   end
+   else
+   tbl1.SetFieldData(i, DM.ibqry3.Fields[i+1].AsString );
 
 
   end;

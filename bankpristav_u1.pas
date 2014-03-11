@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, ComCtrls, ToolWin, DB, IBCustomDataSet, IBQuery, IBSQL,
-  IBDatabase, StdCtrls, Grids, DBGrids, ADODB,dbf;
+  IBDatabase, StdCtrls, Grids, DBGrids, ADODB,dbf,DateUtils;
   
 type
   TForm1 = class(TForm)
@@ -26,6 +26,7 @@ type
     test1: TMenuItem;
     CheckBox1: TCheckBox;
     btn3: TButton;
+    btn5: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure N4Click(Sender: TObject);
@@ -34,6 +35,7 @@ type
     procedure test1Click(Sender: TObject);
     procedure dbgrd1DblClick(Sender: TObject);
     procedure btn3Click(Sender: TObject);
+    procedure btn5Click(Sender: TObject);
     //procedure btn3Click(Sender: TObject);
      //procedure LoadDBF(Filename:String);
 
@@ -184,7 +186,8 @@ begin
     DM.ibqry2.close;
     sq:=sqlstr;
   until Tbl1.Eof;
-Form1.mmo1.Lines.Add(Tbl1.GetFieldData(9))   ;
+    //for i:=
+Form1.mmo1.Lines.Add('DF3='+IntToStr(Length( Tbl1.GetFieldData(7))))   ;
 
 Tbl1.Close;
 Form1.mmo1.Lines.Add(DateToStr(dtnow));
@@ -215,7 +218,12 @@ end;
 procedure TForm1.btn3Click(Sender: TObject);
 var
 tbl1:TDBF;
+y,m,d,i,h,mm,ss,ms:word;
+st:string;
 begin
+  DM.ibqry3.SQL.Clear;
+  DM.ibqry3.SQL.Text:='select * from answer';
+  DM.ibqry3.Open;
   Tbl1:=TDBF.Create(Form1);
   //UNICODE,N,10,0	ID_ZAPR,N,10,0	NUMISP,C,40	DT,D	NUM,C,40	NUMRES,C,40	DTRES,D	RESULT,N,4,0	TEXT,C,253	FILENAME,C,30
   tbl1.AddFieldDefs('UNICODE',bfNumber,10,0);
@@ -232,9 +240,38 @@ begin
 
   tbl1.CreateTable;
   tbl1.CodePage:=OEM;
-  tbl1.Append;
+  //tbl1.Append;
+  tbl1.Insert;
+  for i:=1 to 12 do begin
+
+  if tbl1.GetFieldType(i+1)=bfDate then  begin
+   DecodeDateTime(DM.ibqry3.Fields[i+1].AsDateTime,y,m,d,h,mm,ss,ms);
+   st:=IntToStr(d)+'.'+intTostr(m)+'.'+IntToStr(y)[3]+InttoStr(y)[4]  ;
+   tbl1.SetFieldData(i+1,st);
+  end else
+  tbl1.SetFieldData(i,DM.ibqry3.Fields[i+1].AsString);
+
+
+  end;
   tbl1.Post;
   tbl1.Close;
+end;
+
+procedure TForm1.btn5Click(Sender: TObject);
+var
+ i:Integer;
+ Tbl1:TDBF;
+begin
+
+//  dtnow:=Now;
+  Tbl1:=TDBF.Create(Form1);
+  Tbl1.TableName:= 'C:\bankpristav\In\rz_0902_10.12.2013_1.dbf';
+  Tbl1.Open;
+  Tbl1.CodePage:=OEM;
+
+//Список полей
+  for i:=1 to Tbl1.FieldCount    do
+   mmo1.Lines.Add(Tbl1.GetFieldName(i)+':'+tbl1.getfielddata(i)+':'+IntToStr(Length(tbl1.getfielddata(i))) );
 end;
 
 end.

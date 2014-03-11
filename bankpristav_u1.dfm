@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 233
-  Top = 145
+  Left = 246
+  Top = 170
   Width = 886
   Height = 572
   Caption = #1041#1072#1085#1082' '#1055#1088#1080#1089#1090#1072#1074
@@ -71,8 +71,8 @@ object Form1: TForm1
     TabOrder = 3
   end
   object btn4: TButton
-    Left = 672
-    Top = 336
+    Left = 664
+    Top = 344
     Width = 75
     Height = 25
     Caption = 'btn4'
@@ -88,13 +88,22 @@ object Form1: TForm1
     TabOrder = 5
   end
   object btn3: TButton
-    Left = 304
-    Top = 360
+    Left = 504
+    Top = 344
     Width = 75
     Height = 25
     Caption = 'btn3'
     TabOrder = 6
     OnClick = btn3Click
+  end
+  object btn5: TButton
+    Left = 432
+    Top = 392
+    Width = 75
+    Height = 25
+    Caption = 'btn5'
+    TabOrder = 7
+    OnClick = btn5Click
   end
   object mm1: TMainMenu
     Left = 696

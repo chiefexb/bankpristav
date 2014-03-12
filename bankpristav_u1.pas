@@ -27,6 +27,7 @@ type
     CheckBox1: TCheckBox;
     btn3: TButton;
     btn5: TButton;
+    btn6: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure N4Click(Sender: TObject);

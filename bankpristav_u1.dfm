@@ -105,6 +105,14 @@ object Form1: TForm1
     TabOrder = 7
     OnClick = btn5Click
   end
+  object btn6: TButton
+    Left = 144
+    Top = 408
+    Width = 75
+    Height = 25
+    Caption = 'btn6'
+    TabOrder = 8
+  end
   object mm1: TMainMenu
     Left = 696
     Top = 8

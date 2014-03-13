@@ -177,7 +177,7 @@ begin
        sq:=sq+'Null, '
        end
     end;
-    sq:=sq+'NULL, NULL, '+quotedstr(DateToStr(dtnow))+' )';
+    sq:=sq+'0, NULL, '+quotedstr(DateToStr(dtnow))+' )';
     Tbl1.next;
     Form1.mmo1.Lines.add(sq);
     dm.ibqry2.SQL.Text:=sq;

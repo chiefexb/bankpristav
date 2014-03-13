@@ -15,6 +15,12 @@ type
     dbgrd2: TDBGrid;
     btn2: TBitBtn;
     btn3: TBitBtn;
+    edt1: TEdit;
+    edt2: TEdit;
+    cbb1: TComboBox;
+    lbl1: TLabel;
+    lbl2: TLabel;
+    lbl3: TLabel;
     procedure FormShow(Sender: TObject);
     procedure btn1Click(Sender: TObject);
     procedure btn3Click(Sender: TObject);
@@ -71,7 +77,7 @@ var
   pkans:Integer;
   sql,sq:AnsiString;
 begin
- pkans:=Getgenerator('PK_ANSWER');
+ pkans:=Getgenerator('PK_ANSWER'); //PK_ACC_DATA
  sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, RESULT, TEXT, FILENAME) VALUES (';
   sq:=sql;
   sq:=sq+IntToStr(pkans)+', ';
@@ -94,8 +100,39 @@ begin
 end;
 
 procedure TForm2.btn2Click(Sender: TObject);
+var
+  pkans,pkacc:LongInt;
+   sql,sq:AnsiString;
 begin
 //  счет 42307810860311008389 8585/1 Остаток 194 RUR
-end;
+pkans:=Getgenerator('PK_ANSWER'); //PK_ACC_DATA
+pkacc:=Getgenerator('PK_ACC_DATA'); //PK_ACC_DATA
+sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, RESULT, TEXT, FILENAME) VALUES (';
+  sq:=sql;
+  sq:=sq+IntToStr(pkans)+', ';
+
+  sq:=sq+(DM.ibqry1.FieldByName('UNICODE').asString)+', '   ;
+  sq:=sq+(DM.ibqry1.FieldByName('PK').asString)+', '   ;
+  sq:=sq+quotedstr(DM.ibqry1.FieldByName('NUMISP').asString)+', '   ;
+  sq:=sq+quotedstr(DM.ibqry1.FieldByName('DT').asString)+', '   ;
+  sq:=sq+quotedstr(DM.ibqry1.FieldByName('NUM').asString)+', '   ;
+  sq:=sq+QuotedStr('/')+', ';
+  sq:=sq+QuotedStr(DateToStr(now))+', ';
+  sq:=sq+intToStr(1)+', ';
+  sq:=sq+QuotedStr('Нет счетов')+', Null)' ;
+  mmo2.Lines.Add(sq) ;
+  //DM.ibqry2.SQL.Clear;
+  //DM.ibqry2.SQL.Text:=sq;
+  //DM.ibqry2.ExecSQL;
+  //DM.ibtrnsctn1.Commit;
+  //dbgrd1.Refresh;
+  sql:='INSERT INTO ACC_DATA (PK, ANSWERPK, ACC, BIC_BANK, SUMMA, CURRENCY_CODE, SUMMA_INFO, DEPT_CODE, BANK_NAME) VALUES (';//);'
+  sq:=sql+IntToStr(pkacc )+', ';
+  sq:=sq+IntToStr(pkans)+', ';
+  sq:=sq+quotedStr(edt1.text)+', Null'; //Edit gde schet
+  sq:=sq+ Edt2.Text+', ';
+  sq:=sq+QuotedStr(cbb1.Text)+',Null, Null,Null)'  ;
+  mmo2.Lines.Add(sq)
+  end;
 
 end.

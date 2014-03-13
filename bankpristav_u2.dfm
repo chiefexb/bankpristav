@@ -1,6 +1,6 @@
 object Form2: TForm2
-  Left = 267
-  Top = 104
+  Left = 286
+  Top = 55
   Width = 889
   Height = 640
   Caption = #1057#1086#1079#1076#1072#1085#1080#1077' '#1086#1090#1074#1077#1090#1072
@@ -15,6 +15,27 @@ object Form2: TForm2
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object lbl1: TLabel
+    Left = 56
+    Top = 400
+    Width = 63
+    Height = 13
+    Caption = #1053#1086#1084#1077#1088' '#1089#1095#1077#1090#1072
+  end
+  object lbl2: TLabel
+    Left = 312
+    Top = 400
+    Width = 43
+    Height = 13
+    Caption = #1054#1089#1090#1072#1090#1086#1082
+  end
+  object lbl3: TLabel
+    Left = 480
+    Top = 400
+    Width = 39
+    Height = 13
+    Caption = #1042#1072#1083#1102#1090#1072
+  end
   object mmo1: TMemo
     Left = 16
     Top = 0
@@ -65,7 +86,7 @@ object Form2: TForm2
   end
   object dbgrd2: TDBGrid
     Left = 0
-    Top = 416
+    Top = 456
     Width = 873
     Height = 80
     TabOrder = 4
@@ -180,5 +201,33 @@ object Form2: TForm2
       0CEA240CEAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF290DEF280DEF
       280DEF290DF02A0DF02A0DF12A0DF22A0DF0290CF0280DEF280DF0270DF1FFFF
       FFFFFFFFFFFFFFFFFFFF}
+  end
+  object edt1: TEdit
+    Left = 48
+    Top = 416
+    Width = 233
+    Height = 21
+    TabOrder = 7
+  end
+  object edt2: TEdit
+    Left = 296
+    Top = 416
+    Width = 121
+    Height = 21
+    TabOrder = 8
+    Text = '0'
+  end
+  object cbb1: TComboBox
+    Left = 432
+    Top = 416
+    Width = 145
+    Height = 21
+    ItemHeight = 13
+    ItemIndex = 0
+    TabOrder = 9
+    Text = 'RUR'
+    Items.Strings = (
+      'RUR'
+      'USD')
   end
 end

@@ -112,6 +112,7 @@ object Form1: TForm1
     Height = 25
     Caption = 'btn6'
     TabOrder = 8
+    OnClick = btn6Click
   end
   object mm1: TMainMenu
     Left = 696

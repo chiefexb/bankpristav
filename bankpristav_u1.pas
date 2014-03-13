@@ -37,6 +37,7 @@ type
     procedure dbgrd1DblClick(Sender: TObject);
     procedure btn3Click(Sender: TObject);
     procedure btn5Click(Sender: TObject);
+    procedure btn6Click(Sender: TObject);
     //procedure btn3Click(Sender: TObject);
      //procedure LoadDBF(Filename:String);
 
@@ -282,6 +283,11 @@ begin
 //Список полей
   for i:=1 to Tbl1.FieldCount    do
    mmo1.Lines.Add(Tbl1.GetFieldName(i)+':'+tbl1.getfielddata(i)+':'+IntToStr(Length(tbl1.getfielddata(i))) );
+end;
+
+procedure TForm1.btn6Click(Sender: TObject);
+begin
+//текст
 end;
 
 end.

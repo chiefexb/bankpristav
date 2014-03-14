@@ -33,6 +33,7 @@ type
 
 var
   Form2: TForm2;
+  
 
 implementation
 
@@ -45,6 +46,7 @@ procedure TForm2.FormShow(Sender: TObject);
    i:Integer;
    s:AnsiString;
 begin
+  //Form2.mmo1.Lines.Add(IntToStr(dm.ibqry1.RecNo));
    s:='';
    mmo1.Lines.Clear;
   for i:=0 to dm.ibqry1.Fields.Count-1 do  begin
@@ -61,7 +63,8 @@ end;
 procedure TForm2.btn1Click(Sender: TObject);
 begin
  DM.ibqry3.SQL.Clear;
- DM.ibqry3.SQL.Text:='select * from answer';
+ DM.ibqry3.SQL.Text:='select * from answer where id_zapr='+(DM.ibqry1.FieldByName('PK').asString);
+
  DM.ibqry3.Open;
  form2.dbgrd1.DataSource:=DM.ds3;
   DM.ibqry4.SQL.Clear;
@@ -129,7 +132,7 @@ sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, 
   sql:='INSERT INTO ACC_DATA (PK, ANSWERPK, ACC, BIC_BANK, SUMMA, CURRENCY_CODE, SUMMA_INFO, DEPT_CODE, BANK_NAME) VALUES (';//);'
   sq:=sql+IntToStr(pkacc )+', ';
   sq:=sq+IntToStr(pkans)+', ';
-  sq:=sq+quotedStr(edt1.text)+', Null'; //Edit gde schet
+  sq:=sq+quotedStr(edt1.text)+', Null, '; //Edit gde schet
   sq:=sq+ Edt2.Text+', ';
   sq:=sq+QuotedStr(cbb1.Text)+',Null, Null,Null)'  ;
   mmo2.Lines.Add(sq)

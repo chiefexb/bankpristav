@@ -214,6 +214,7 @@ end;
 
 procedure TForm1.dbgrd1DblClick(Sender: TObject);
 begin
+  //form Form1.dbgrd1.SelectedIndex
  form2.show;
 end;
 

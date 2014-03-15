@@ -38,6 +38,7 @@ type
     procedure btn3Click(Sender: TObject);
     procedure btn5Click(Sender: TObject);
     procedure btn6Click(Sender: TObject);
+    procedure CheckBox1Click(Sender: TObject);
     //procedure btn3Click(Sender: TObject);
      //procedure LoadDBF(Filename:String);
 
@@ -84,15 +85,14 @@ if  not DM.ibdtbs1.Connected then begin
  // DM.ibtbl1.TableName:='DIVINFO';
   //DM.ibtbl1.Active:=True;
 
-  dm.ibqry1.SQL.Text:='select * from requests'  ;
+  dm.ibqry1.SQL.Text:='select * from requests where processed=0'  ;
   dm.ibqry1.Open;
   for i:=0 to dm.ibqry1.Fields.count-1 do begin
     dm.ibqry2.SQL.Clear;
-   dm.ibqry2.SQL.Text:='select * from Description where tablename=upper('+quotedStr('Requests')+') and fieldorder='+IntToStr(i);
+   dm.ibqry2.SQL.Text:='select * from descr where tablename=upper('+quotedStr('Requests')+') and fieldorder='+IntToStr(i);
    DM.ibqry2.Open;
-
-   dm.ibqry1.Fields[i].DisplayLabel:=DM.ibqry2.Fields[2].asString;
-   dm.ibqry1.Fields[i].DisplayWidth:=DM.ibqry2.Fields[3].AsInteger;
+   DM.ibqry1.Fields[i].DisplayLabel:=  DM.ibqry2.FieldByName('DISPLAYNAME').AsString;
+   dm.ibqry1.Fields[i].DisplayWidth:=dm.ibqry2.FieldByName('DISPLAYWIDTH').AsInteger;
   end;
   form1.dbgrd1.DataSource:=DM.ds1 ;
 
@@ -289,6 +289,18 @@ end;
 procedure TForm1.btn6Click(Sender: TObject);
 begin
 //текст
+end;
+
+procedure TForm1.CheckBox1Click(Sender: TObject);
+ var
+  sql:AnsiString;
+begin
+ if CheckBox1.Checked then  sql:= 'select * from requests where processed=0'
+  else   sql:= 'select * from requests where processed=1';
+  dm.ibqry1.Close;
+  DM.ibqry1.SQL.Text:=sql;
+  dm.ibqry1.Open;
+  Form1.dbgrd1.Refresh;
 end;
 
 end.

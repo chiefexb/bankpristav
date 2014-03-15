@@ -1,6 +1,6 @@
 object Form2: TForm2
-  Left = 286
-  Top = 55
+  Left = 296
+  Top = 24
   Width = 889
   Height = 640
   Caption = #1057#1086#1079#1076#1072#1085#1080#1077' '#1086#1090#1074#1077#1090#1072
@@ -37,9 +37,9 @@ object Form2: TForm2
     Caption = #1042#1072#1083#1102#1090#1072
   end
   object mmo1: TMemo
-    Left = 16
+    Left = 0
     Top = 0
-    Width = 865
+    Width = 881
     Height = 281
     Font.Charset = RUSSIAN_CHARSET
     Font.Color = clWindowText
@@ -64,9 +64,9 @@ object Form2: TForm2
     TabOrder = 1
   end
   object dbgrd1: TDBGrid
-    Left = 8
+    Left = 0
     Top = 280
-    Width = 873
+    Width = 881
     Height = 73
     TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
@@ -75,21 +75,12 @@ object Form2: TForm2
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
   end
-  object btn1: TButton
-    Left = 720
-    Top = 360
-    Width = 75
-    Height = 25
-    Caption = 'btn1'
-    TabOrder = 3
-    OnClick = btn1Click
-  end
   object dbgrd2: TDBGrid
     Left = 0
     Top = 456
     Width = 873
     Height = 80
-    TabOrder = 4
+    TabOrder = 3
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -105,7 +96,7 @@ object Form2: TForm2
     Caption = 'btn2'
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 5
+    TabOrder = 4
     OnClick = btn2Click
     Glyph.Data = {
       E6040000424DE604000000000000360000002800000014000000140000000100
@@ -158,7 +149,7 @@ object Form2: TForm2
     Caption = 'btn3'
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 6
+    TabOrder = 5
     OnClick = btn3Click
     Glyph.Data = {
       E6040000424DE604000000000000360000002800000014000000140000000100
@@ -207,14 +198,14 @@ object Form2: TForm2
     Top = 416
     Width = 233
     Height = 21
-    TabOrder = 7
+    TabOrder = 6
   end
   object edt2: TEdit
     Left = 296
     Top = 416
     Width = 121
     Height = 21
-    TabOrder = 8
+    TabOrder = 7
     Text = '0'
   end
   object cbb1: TComboBox
@@ -224,10 +215,21 @@ object Form2: TForm2
     Height = 21
     ItemHeight = 13
     ItemIndex = 0
-    TabOrder = 9
+    TabOrder = 8
     Text = 'RUR'
     Items.Strings = (
       'RUR'
       'USD')
+  end
+  object btn1: TBitBtn
+    Left = 256
+    Top = 368
+    Width = 137
+    Height = 25
+    Hint = #1055#1086#1089#1083#1077' '#1085#1072#1078#1072#1090#1080#1103' '#1101#1090#1086#1081' '#1082#1085#1086#1087#1082#1080' '#1085#1077#1083#1100#1079#1103' '#1076#1086#1073#1072#1074#1080#1090#1100' '#1077#1097#1077' '#1086#1076#1080#1085' '#1089#1095#1077#1090' '#1074' '#1086#1090#1074#1077#1090
+    Caption = #1054#1073#1088#1072#1073#1086#1090#1072#1090#1100' '#1079#1072#1087#1088#1086#1089
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 9
   end
 end

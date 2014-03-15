@@ -11,7 +11,6 @@ type
     mmo1: TMemo;
     mmo2: TMemo;
     dbgrd1: TDBGrid;
-    btn1: TButton;
     dbgrd2: TDBGrid;
     btn2: TBitBtn;
     btn3: TBitBtn;
@@ -21,8 +20,8 @@ type
     lbl1: TLabel;
     lbl2: TLabel;
     lbl3: TLabel;
+    btn1: TBitBtn;
     procedure FormShow(Sender: TObject);
-    procedure btn1Click(Sender: TObject);
     procedure btn3Click(Sender: TObject);
     procedure btn2Click(Sender: TObject);
   private
@@ -51,18 +50,14 @@ begin
    mmo1.Lines.Clear;
   for i:=0 to dm.ibqry1.Fields.Count-1 do  begin
   dm.ibqry2.SQL.Clear;
-  dm.ibqry2.SQL.Text:='select * from Description where tablename=upper('+quotedStr('Requests')+') and fieldorder='+IntToStr(i);
+  dm.ibqry2.SQL.Text:='select * from descr where tablename=upper('+quotedStr('Requests')+') and fieldorder='+IntToStr(i);
   DM.ibqry2.Open;
     mmo1.Lines.Add(DM.ibqry2.Fields[2].asString+':'+dupestring(' ',20-length(DM.ibqry2.Fields[2].asString))+dm.ibqry1.Fields[i].AsString ) ;
   //mo1.Lines.Add(dm.ibqry1.Fields[i].Displayt+':'+dm.ibqry1.Fields[i].AsString);
    // s:=s+dm.ibqry1.Fields[i].AsString+', ';
   end;
-
-end;
-
-procedure TForm2.btn1Click(Sender: TObject);
-begin
- DM.ibqry3.SQL.Clear;
+  //
+  DM.ibqry3.SQL.Clear;
  DM.ibqry3.SQL.Text:='select * from answer where id_zapr='+(DM.ibqry1.FieldByName('PK').asString);
 
  DM.ibqry3.Open;
@@ -72,7 +67,6 @@ begin
  DM.ibqry4.Open;
  form2.dbgrd2.DataSource:=DM.ds4;
 
- //DM.
 end;
 
 procedure TForm2.btn3Click(Sender: TObject);
@@ -98,8 +92,17 @@ begin
   DM.ibqry2.SQL.Clear;
   DM.ibqry2.SQL.Text:=sq;
   DM.ibqry2.ExecSQL;
+  sq:='UPDATE REQUESTS SET ANSWERID ='+IntToStr(pkans) +',processed=1  WHERE PK = '+(DM.ibqry1.FieldByName('PK').asString);
   DM.ibtrnsctn1.Commit;
+  DM.ibqry2.SQL.Clear;
+  DM.ibqry2.SQL.Text:=sq;
+  DM.ibqry2.ExecSQL;
+  DM.ibtrnsctn1.Commit;
+
+
   dbgrd1.Refresh;
+
+
 end;
 
 procedure TForm2.btn2Click(Sender: TObject);
@@ -122,12 +125,12 @@ sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, 
   sq:=sq+QuotedStr('/')+', ';
   sq:=sq+QuotedStr(DateToStr(now))+', ';
   sq:=sq+intToStr(1)+', ';
-  sq:=sq+QuotedStr('Нет счетов')+', Null)' ;
+  sq:=sq+QuotedStr('Есть счета')+', Null)' ;
   mmo2.Lines.Add(sq) ;
-  //DM.ibqry2.SQL.Clear;
-  //DM.ibqry2.SQL.Text:=sq;
-  //DM.ibqry2.ExecSQL;
-  //DM.ibtrnsctn1.Commit;
+  DM.ibqry2.SQL.Clear;
+  DM.ibqry2.SQL.Text:=sq;
+  DM.ibqry2.ExecSQL;
+  DM.ibtrnsctn1.Commit;
   //dbgrd1.Refresh;
   sql:='INSERT INTO ACC_DATA (PK, ANSWERPK, ACC, BIC_BANK, SUMMA, CURRENCY_CODE, SUMMA_INFO, DEPT_CODE, BANK_NAME) VALUES (';//);'
   sq:=sql+IntToStr(pkacc )+', ';
@@ -135,7 +138,13 @@ sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, 
   sq:=sq+quotedStr(edt1.text)+', Null, '; //Edit gde schet
   sq:=sq+ Edt2.Text+', ';
   sq:=sq+QuotedStr(cbb1.Text)+',Null, Null,Null)'  ;
-  mmo2.Lines.Add(sq)
+  mmo2.Lines.Add(sq);
+  DM.ibqry2.SQL.Clear;
+  DM.ibqry2.SQL.Text:=sq;
+  DM.ibqry2.ExecSQL;
+  DM.ibtrnsctn1.Commit;
+  dbgrd1.Refresh;
+
   end;
 
 end.

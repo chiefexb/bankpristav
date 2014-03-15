@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 290
-  Top = 91
+  Left = 293
+  Top = 95
   Width = 886
   Height = 572
   Caption = #1041#1072#1085#1082' '#1055#1088#1080#1089#1090#1072#1074
@@ -85,7 +85,10 @@ object Form1: TForm1
     Width = 97
     Height = 17
     Caption = #1054#1073#1088#1072#1073#1086#1090#1072#1085
+    Checked = True
+    State = cbChecked
     TabOrder = 5
+    OnClick = CheckBox1Click
   end
   object btn3: TButton
     Left = 504

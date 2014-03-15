@@ -88,12 +88,12 @@ object Form2: TForm2
     TitleFont.Style = []
   end
   object btn2: TBitBtn
-    Left = 96
+    Left = 40
     Top = 368
-    Width = 75
+    Width = 131
     Height = 25
     Hint = #1057#1086#1079#1076#1072#1090#1100'  '#1087#1086#1083#1086#1078#1080#1090#1077#1083#1100#1085#1099#1081' '#1086#1090#1074#1077#1090' '#1087#1086' '#1079#1072#1087#1088#1086#1089#1091
-    Caption = 'btn2'
+    Caption = #1044#1086#1073#1072#1074#1080#1090#1100' '#1089#1095#1077#1090
     ParentShowHint = False
     ShowHint = True
     TabOrder = 4
@@ -143,10 +143,10 @@ object Form2: TForm2
   object btn3: TBitBtn
     Left = 176
     Top = 368
-    Width = 75
+    Width = 161
     Height = 25
     Hint = #1057#1086#1079#1076#1072#1090#1100' '#1086#1090#1088#1080#1094#1072#1090#1077#1083#1100#1085#1099#1081' '#1086#1090#1074#1077#1090' '#1087#1086' '#1079#1072#1087#1088#1086#1089#1091
-    Caption = 'btn3'
+    Caption = #1053#1077#1090' '#1089#1095#1077#1090#1086#1074
     ParentShowHint = False
     ShowHint = True
     TabOrder = 5
@@ -222,7 +222,7 @@ object Form2: TForm2
       'USD')
   end
   object btn1: TBitBtn
-    Left = 256
+    Left = 344
     Top = 368
     Width = 137
     Height = 25

@@ -48,6 +48,17 @@ begin
   //Form2.mmo1.Lines.Add(IntToStr(dm.ibqry1.RecNo));
    s:='';
    mmo1.Lines.Clear;
+   if dm.ibqry1.FieldByName('Processed').AsInteger=1 then begin
+     btn2.Enabled:=False;
+     btn3.Enabled:=False;
+     btn1.Enabled:=False;
+   end
+    else
+   begin
+   btn2.Enabled:=True;
+     btn3.Enabled:=false;
+     btn1.Enabled:=True;
+   end;
   for i:=0 to dm.ibqry1.Fields.Count-1 do  begin
   dm.ibqry2.SQL.Clear;
   dm.ibqry2.SQL.Text:='select * from descr where tablename=upper('+quotedStr('Requests')+') and fieldorder='+IntToStr(i);
@@ -111,7 +122,9 @@ var
    sql,sq:AnsiString;
 begin
 //  счет 42307810860311008389 8585/1 Остаток 194 RUR
-pkans:=Getgenerator('PK_ANSWER'); //PK_ACC_DATA
+if DM.ibqry1.FieldByName('ANSWERID').AsInteger<>null then
+  pkans:= DM.ibqry1.FieldByName('ANSWERID').AsInteger
+  else  pkans:=Getgenerator('PK_ANSWER'); //PK_ACC_DATA
 pkacc:=Getgenerator('PK_ACC_DATA'); //PK_ACC_DATA
 sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, RESULT, TEXT, FILENAME) VALUES (';
   sq:=sql;
@@ -130,15 +143,21 @@ sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, 
   DM.ibqry2.SQL.Clear;
   DM.ibqry2.SQL.Text:=sq;
   DM.ibqry2.ExecSQL;
-  DM.ibtrnsctn1.Commit;
+
   //dbgrd1.Refresh;
   sql:='INSERT INTO ACC_DATA (PK, ANSWERPK, ACC, BIC_BANK, SUMMA, CURRENCY_CODE, SUMMA_INFO, DEPT_CODE, BANK_NAME) VALUES (';//);'
+  DM.ibtrnsctn1.Commit;
   sq:=sql+IntToStr(pkacc )+', ';
   sq:=sq+IntToStr(pkans)+', ';
   sq:=sq+quotedStr(edt1.text)+', Null, '; //Edit gde schet
   sq:=sq+ Edt2.Text+', ';
   sq:=sq+QuotedStr(cbb1.Text)+',Null, Null,Null)'  ;
   mmo2.Lines.Add(sq);
+  DM.ibqry2.SQL.Clear;
+  DM.ibqry2.SQL.Text:=sq;
+  DM.ibqry2.ExecSQL;
+  sq:='UPDATE REQUESTS SET ANSWERID ='+IntToStr(pkans) +'   WHERE PK = '+(DM.ibqry1.FieldByName('PK').asString);
+  DM.ibtrnsctn1.Commit;
   DM.ibqry2.SQL.Clear;
   DM.ibqry2.SQL.Text:=sq;
   DM.ibqry2.ExecSQL;

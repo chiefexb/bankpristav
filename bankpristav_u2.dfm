@@ -231,5 +231,6 @@ object Form2: TForm2
     ParentShowHint = False
     ShowHint = True
     TabOrder = 9
+    OnClick = btn1Click
   end
 end

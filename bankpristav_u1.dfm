@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 293
-  Top = 95
+  Left = 350
+  Top = 140
   Width = 886
   Height = 572
   Caption = #1041#1072#1085#1082' '#1055#1088#1080#1089#1090#1072#1074
@@ -54,11 +54,11 @@ object Form1: TForm1
     OnDblClick = dbgrd1DblClick
   end
   object btn2: TButton
-    Left = 584
+    Left = 552
     Top = 344
-    Width = 75
+    Width = 211
     Height = 25
-    Caption = 'btn2'
+    Caption = #1058#1077#1089#1090' '#1079#1072#1075#1088#1091#1079#1082#1080' '#1089#1087#1080#1089#1082#1072' '#1092#1072#1081#1083#1086#1074
     TabOrder = 2
     OnClick = btn2Click
   end
@@ -71,11 +71,11 @@ object Form1: TForm1
     TabOrder = 3
   end
   object btn4: TButton
-    Left = 664
+    Left = 784
     Top = 344
     Width = 75
     Height = 25
-    Caption = 'btn4'
+    Caption = #1047#1072#1075#1088#1091#1079#1080#1090#1100
     TabOrder = 4
     OnClick = btn4Click
   end
@@ -85,37 +85,54 @@ object Form1: TForm1
     Width = 97
     Height = 17
     Caption = #1054#1073#1088#1072#1073#1086#1090#1072#1085
-    Checked = True
-    State = cbChecked
     TabOrder = 5
     OnClick = CheckBox1Click
   end
   object btn3: TButton
-    Left = 504
-    Top = 344
-    Width = 75
+    Left = 144
+    Top = 400
+    Width = 179
     Height = 25
-    Caption = 'btn3'
+    Caption = #1058#1077#1089#1090' '#1089#1086#1079#1076#1072#1085#1080#1103' '#1086#1090#1074#1077#1090#1072' '#1044#1041#1060
     TabOrder = 6
     OnClick = btn3Click
   end
   object btn5: TButton
-    Left = 432
+    Left = 600
     Top = 392
     Width = 75
     Height = 25
-    Caption = 'btn5'
+    Caption = #1058#1077#1089#1090' '#1044#1041#1060
     TabOrder = 7
     OnClick = btn5Click
   end
-  object btn6: TButton
-    Left = 144
-    Top = 408
-    Width = 75
-    Height = 25
-    Caption = 'btn6'
+  object chklst1: TCheckListBox
+    Left = 0
+    Top = 336
+    Width = 121
+    Height = 97
+    ItemHeight = 13
+    Items.Strings = (
+      '1')
     TabOrder = 8
+  end
+  object btn6: TBitBtn
+    Left = 144
+    Top = 336
+    Width = 113
+    Height = 25
+    Caption = #1057#1087#1080#1089#1086#1082' '#1087#1072#1082#1077#1090#1086#1074
+    TabOrder = 9
     OnClick = btn6Click
+  end
+  object btn7: TBitBtn
+    Left = 144
+    Top = 368
+    Width = 129
+    Height = 25
+    Caption = #1055#1088#1086#1074#1077#1088#1082#1072' '#1075#1086#1090#1086#1074#1085#1086#1089#1090#1080
+    TabOrder = 10
+    OnClick = btn7Click
   end
   object mm1: TMainMenu
     Left = 696

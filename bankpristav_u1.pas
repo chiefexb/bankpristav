@@ -5,8 +5,9 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, ComCtrls, ToolWin, DB, IBCustomDataSet, IBQuery, IBSQL,
-  IBDatabase, StdCtrls, Grids, DBGrids, ADODB,dbf,DateUtils;
-  
+  IBDatabase, StdCtrls, Grids, DBGrids, ADODB,dbf,DateUtils, CheckLst,
+  Buttons;
+ procedure setdescription;
 type
   TForm1 = class(TForm)
     mm1: TMainMenu;
@@ -27,7 +28,9 @@ type
     CheckBox1: TCheckBox;
     btn3: TButton;
     btn5: TButton;
-    btn6: TButton;
+    chklst1: TCheckListBox;
+    btn6: TBitBtn;
+    btn7: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure N4Click(Sender: TObject);
@@ -37,8 +40,9 @@ type
     procedure dbgrd1DblClick(Sender: TObject);
     procedure btn3Click(Sender: TObject);
     procedure btn5Click(Sender: TObject);
-    procedure btn6Click(Sender: TObject);
     procedure CheckBox1Click(Sender: TObject);
+    procedure btn6Click(Sender: TObject);
+    procedure btn7Click(Sender: TObject);
     //procedure btn3Click(Sender: TObject);
      //procedure LoadDBF(Filename:String);
 
@@ -87,19 +91,23 @@ if  not DM.ibdtbs1.Connected then begin
 
   dm.ibqry1.SQL.Text:='select * from requests where processed=0'  ;
   dm.ibqry1.Open;
-  for i:=0 to dm.ibqry1.Fields.count-1 do begin
+  setdescription;
+  form1.dbgrd1.DataSource:=DM.ds1 ;
+
+end;
+
+end;
+procedure setdescription;
+var i:integer;
+ begin
+   for i:=0 to dm.ibqry1.Fields.count-1 do begin
     dm.ibqry2.SQL.Clear;
    dm.ibqry2.SQL.Text:='select * from descr where tablename=upper('+quotedStr('Requests')+') and fieldorder='+IntToStr(i);
    DM.ibqry2.Open;
    DM.ibqry1.Fields[i].DisplayLabel:=  DM.ibqry2.FieldByName('DISPLAYNAME').AsString;
    dm.ibqry1.Fields[i].DisplayWidth:=dm.ibqry2.FieldByName('DISPLAYWIDTH').AsInteger;
   end;
-  form1.dbgrd1.DataSource:=DM.ds1 ;
-
-end;
-
-end;
-
+ end;
 procedure TForm1.N4Click(Sender: TObject);
 begin
 //DM.ibtbl1.First;
@@ -144,9 +152,16 @@ procedure LoadDBF(Filename:String);
    pk,packed_id:integer;
    dtnow:TDate;
    Tbl1:TDBF;
-   flstr,sq,sqlstr:AnsiString;
+   f,flstr,sq,sqlstr:AnsiString;
 
 begin
+  //проверка есть ли такой файл в базе
+  f:=extractFileName(filename);
+  sq:='select * from requests  where upper (requests.filename)=upper('+quotedstr(f)+')';
+  DM.ibqry2.Close;
+  DM.ibqry2.SQL.Text:=sq;
+  dm.ibqry2.Open;
+  if dm.ibqry2.RecordCount =0 then begin
   pk:=0;
   dtnow:=Now;
   Tbl1:=TDBF.Create(Form1);
@@ -194,14 +209,27 @@ Form1.mmo1.Lines.Add('DF3='+IntToStr(Length( Tbl1.GetFieldData(7))))   ;
 Tbl1.Close;
 Form1.mmo1.Lines.Add(DateToStr(dtnow));
 Form1.mmo1.Lines.Add(intToStr(packed_id));
-end;
-//procedure LoadDBF (File)
+end
 
+ else begin
+  form1.mmo1.Lines.Add('ERR:Файл уже загружен') ;
+  //Application.MessageBox('ERR','Файл уже загружен',[mbOK]);
+    MessageDlg('Файл уже загружен',
+
+            mtError, [mbOk], 0)
+
+  end
+//procedure LoadDBF (File)
+end;
 procedure TForm1.btn4Click(Sender: TObject);
+ var
+   fn:string;
 begin
 Form1.mmo1.Lines.Add('!')  ;
+fn:='C:\bankpristav\In\rz_0902_10.12.2013_1.dbf'  ;
+
 //if DM.ibdtbs1.Connected then   Form1.mmo1.Lines.Add('con')
-LoadDBF('C:\bankpristav\In\rz_0902_10.12.2013_1.dbf');
+LoadDBF(fn);
 
 
 end;
@@ -222,10 +250,10 @@ procedure TForm1.btn3Click(Sender: TObject);
 var
 tbl1:TDBF;
 y,m,d,i,h,mm,ss,ms:word;
-st:string;
+st,fname:string;
 begin
   DM.ibqry3.SQL.Clear;
-  DM.ibqry3.SQL.Text:='select * from answer';
+  DM.ibqry3.SQL.Text:='select answer.*,requests.filename,requests.packet_id   from answer  join requests on requests.pk=answer.id_zapr    where packet_id=14';
   DM.ibqry3.Open;
   Tbl1:=TDBF.Create(Form1);
   //UNICODE,N,10,0	ID_ZAPR,N,10,0	NUMISP,C,40	DT,D	NUM,C,40	NUMRES,C,40	DTRES,D	RESULT,N,4,0	TEXT,C,253	FILENAME,C,30
@@ -238,12 +266,15 @@ begin
   tbl1.AddFieldDefs('RESULT',bfNumber,4,0);
   tbl1.AddFieldDefs('TEXT',bfString,253,0);
   tbl1.AddFieldDefs('FILENAME',bfString,30,0);
-
-  tbl1.TableName:=ExtractFilePath(Application.ExeName)+ 'rez.dbf';
+  fname:=ExtractFilePath(Application.ExeName)+'o'+ DM.ibqry3.Fieldbyname('FILENAME1').AsString ;
+  tbl1.TableName:= fname;
+   //'rez.dbf';
 
   tbl1.CreateTable;
   tbl1.CodePage:=OEM;
   //tbl1.Append;
+  dm.ibqry3.First;
+  repeat
   tbl1.Insert;
   for i:=1 to tbl1.FieldCount do begin
   st:='';
@@ -266,6 +297,8 @@ begin
 
   end;
   tbl1.Post;
+  dm.ibqry3.Next
+  until dm.ibqry3.Eof;
   tbl1.Close;
 end;
 
@@ -286,21 +319,61 @@ begin
    mmo1.Lines.Add(Tbl1.GetFieldName(i)+':'+tbl1.getfielddata(i)+':'+IntToStr(Length(tbl1.getfielddata(i))) );
 end;
 
-procedure TForm1.btn6Click(Sender: TObject);
-begin
-//текст
-end;
-
 procedure TForm1.CheckBox1Click(Sender: TObject);
  var
   sql:AnsiString;
 begin
- if CheckBox1.Checked then  sql:= 'select * from requests where processed=0'
-  else   sql:= 'select * from requests where processed=1';
+ if CheckBox1.Checked then  sql:= 'select * from requests where processed=1'
+  else   sql:= 'select * from requests where processed=0';
   dm.ibqry1.Close;
   DM.ibqry1.SQL.Text:=sql;
   dm.ibqry1.Open;
+  setdescription;
   Form1.dbgrd1.Refresh;
 end;
+
+procedure TForm1.btn6Click(Sender: TObject);
+begin
+DM.ibqry2.SQL.Text:='select requests.packet_id from requests  group by packet_id';
+dm.ibqry2.Open;
+dm.ibqry2.First;
+form1.chklst1.Items.Clear;
+repeat
+  form1.chklst1.Items.Add(DM.ibqry2.Fields[0].AsString);
+ dm.ibqry2.Next;
+until dm.ibqry2.Eof
+
+end;
+
+procedure TForm1.btn7Click(Sender: TObject);
+ var
+   i,j:Integer;
+   //mm:set of integer;
+   ff:Boolean;
+begin
+  ff:=False;
+
+   for i:=0 to chklst1.Items.Count-1 do begin
+        begin
+       //mmo1.Lines.Add(chklst1.Items[i]);
+       //Проверка
+       DM.ibqry2.SQL.Text:='select * from requests where packet_id='+chklst1.Items[i];
+       dm.ibqry2.Open;
+       dm.ibqry2.First;
+       repeat
+         if dm.ibqry2.FieldByName('Processed').AsInteger=0 then ff:=True;
+         dm.ibqry2.Next;
+       until dm.ibqry2.Eof or ff;
+        if ff then begin
+         mmo1.Lines.Add(chklst1.Items[i]+'-test false');
+         chklst1.Items.Delete(i);
+        end
+         else   mmo1.Lines.Add(chklst1.Items[i]+'-test ok')
+
+
+       end;
+   end;
+   end;
+
 
 end.

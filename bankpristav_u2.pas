@@ -24,6 +24,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure btn3Click(Sender: TObject);
     procedure btn2Click(Sender: TObject);
+    procedure btn1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -165,5 +166,17 @@ sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, 
   dbgrd1.Refresh;
 
   end;
+
+procedure TForm2.btn1Click(Sender: TObject);
+var
+ sq:AnsiString;
+begin
+  sq:='UPDATE REQUESTS SET processed =1   WHERE PK = '+(DM.ibqry1.FieldByName('PK').asString);
+  dM.ibqry2.SQL.Text:=sq;
+  DM.ibqry2.ExecSQL;
+  DM.ibtrnsctn1.Commit;
+
+
+end;
 
 end.

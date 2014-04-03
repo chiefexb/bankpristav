@@ -348,6 +348,7 @@ dm.ibqry2.First;
 form1.chklst1.Items.Clear;
 repeat
   form1.chklst1.Items.Add(DM.ibqry2.Fields[0].AsString);
+  form1.chklst1.ItemEnabled[  form1.chklst1.Items.Count-1]:=False;
  dm.ibqry2.Next;
 until dm.ibqry2.Eof
 
@@ -355,14 +356,17 @@ end;
 
 procedure TForm1.btn7Click(Sender: TObject);
  var
-   i,j:Integer;
+   i,j,k:Integer;
    //mm:set of integer;
    ff:Boolean;
+   LL:array of Integer;
 begin
   ff:=False;
+  k:=0;
+  //setLength(LL,chklst1.Items.Count );
 
-   for i:=0 to chklst1.Items.Count-1 do begin
-        begin
+   for i:=0 to chklst1.Items.Count-1 do
+     begin
        //mmo1.Lines.Add(chklst1.Items[i]);
        //Проверка
        DM.ibqry2.SQL.Text:='select * from requests where packet_id='+chklst1.Items[i];
@@ -372,15 +376,26 @@ begin
          if dm.ibqry2.FieldByName('Processed').AsInteger=0 then ff:=True;
          dm.ibqry2.Next;
        until dm.ibqry2.Eof or ff;
+
         if ff then begin
          mmo1.Lines.Add(chklst1.Items[i]+'-test false');
-         chklst1.Items.Delete(i);
+         inc(k);
+         SetLength(LL,k);
+         LL[k-1]:=i;
+         //chklst1.Items.Delete(i);
+
         end
          else   mmo1.Lines.Add(chklst1.Items[i]+'-test ok')
 
 
        end;
-   end;
+
+       if length(ll)>0 then begin
+        for j:=0 to Length(ll)-1 do
+          chklst1.ItemEnabled[j]:=true;
+          //Delete(ll[j]);
+          end;
+
    end;
 
 

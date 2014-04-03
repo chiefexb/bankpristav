@@ -1,0 +1,3 @@
+ALTER TABLE ANSWER ADD PROCESSED SMALLINT;
+update answer    set answer.processed=0;
+commit work;

@@ -123,8 +123,10 @@ procedure TForm1.btn2Click(Sender: TObject);
     path:string;
 begin
   //path:=DM.ibtbl1.FieldByName('INPATH').AsString;
-     mmo1.Lines.Clear;
-FindRes:=FindFirst(path+'*.*',faAnyFile,SR);
+ path:=ExtractFilePath(Application.ExeName)+'In\';
+ mmo1.Lines.Clear;
+ mmo1.Lines.Add(path);
+ FindRes:=FindFirst(path+'*.dbf',faAnyFile,SR);
 While FindRes=0 do
    begin
       if ((SR.Attr and faDirectory)=faDirectory) and
@@ -139,9 +141,16 @@ While FindRes=0 do
      Reset(f);
      while not eof(f) do
      ReadLn(f, s); }
-//     mmo1.Lines.Add(DM.ibtbl1.FieldByName('INPATH').AsString+SR.Name);
-     //LoadDBF(DM.ibtbl1.FieldByName('INPATH').AsString+SR.Name);
+     //mmo1.Lines.Add(fname);
+     dm.ibqry2.close;
+     dm.ibqry2.SQL.text:='select count(pk)  from requests where filename='+quotedstr (SR.Name);
+     dm.ibqry2.Open;
+     mmo1.Lines.Add('Файл: '+SR.Name+' '+dm.ibqry2.Fields[0].AsString+' раз(а)');
+     if dm.ibqry2.Fields[0].AsInteger=0 then begin
+        mmo1.Lines.Add('Файл: '+SR.Name+'Загружаем...');
 
+      LoadDBF(path+SR.Name);
+      end;
      FindRes:=FindNext(SR);
       end;
 end;

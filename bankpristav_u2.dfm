@@ -1,9 +1,8 @@
 object Form2: TForm2
-  Left = 238
-  Top = -23
-  Width = 889
-  Height = 640
-  VertScrollBar.Position = 36
+  Left = 293
+  Top = 87
+  Width = 891
+  Height = 648
   Caption = #1057#1086#1079#1076#1072#1085#1080#1077' '#1086#1090#1074#1077#1090#1072
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,28 +17,28 @@ object Form2: TForm2
   TextHeight = 13
   object lbl1: TLabel
     Left = 56
-    Top = 364
+    Top = 400
     Width = 63
     Height = 13
     Caption = #1053#1086#1084#1077#1088' '#1089#1095#1077#1090#1072
   end
   object lbl2: TLabel
     Left = 312
-    Top = 364
+    Top = 400
     Width = 43
     Height = 13
     Caption = #1054#1089#1090#1072#1090#1086#1082
   end
   object lbl3: TLabel
     Left = 480
-    Top = 364
+    Top = 400
     Width = 39
     Height = 13
     Caption = #1042#1072#1083#1102#1090#1072
   end
   object mmo1: TMemo
     Left = 0
-    Top = -36
+    Top = 0
     Width = 881
     Height = 281
     Font.Charset = RUSSIAN_CHARSET
@@ -56,7 +55,7 @@ object Form2: TForm2
   end
   object mmo2: TMemo
     Left = 0
-    Top = 500
+    Top = 536
     Width = 425
     Height = 606
     Align = alCustom
@@ -66,7 +65,7 @@ object Form2: TForm2
   end
   object dbgrd1: TDBGrid
     Left = 0
-    Top = 244
+    Top = 280
     Width = 881
     Height = 73
     TabOrder = 2
@@ -78,7 +77,7 @@ object Form2: TForm2
   end
   object dbgrd2: TDBGrid
     Left = 0
-    Top = 420
+    Top = 456
     Width = 873
     Height = 80
     TabOrder = 3
@@ -90,7 +89,7 @@ object Form2: TForm2
   end
   object btn2: TBitBtn
     Left = 40
-    Top = 332
+    Top = 368
     Width = 131
     Height = 25
     Hint = #1057#1086#1079#1076#1072#1090#1100'  '#1087#1086#1083#1086#1078#1080#1090#1077#1083#1100#1085#1099#1081' '#1086#1090#1074#1077#1090' '#1087#1086' '#1079#1072#1087#1088#1086#1089#1091
@@ -143,7 +142,7 @@ object Form2: TForm2
   end
   object btn3: TBitBtn
     Left = 176
-    Top = 332
+    Top = 368
     Width = 161
     Height = 25
     Hint = #1057#1086#1079#1076#1072#1090#1100' '#1086#1090#1088#1080#1094#1072#1090#1077#1083#1100#1085#1099#1081' '#1086#1090#1074#1077#1090' '#1087#1086' '#1079#1072#1087#1088#1086#1089#1091
@@ -196,14 +195,14 @@ object Form2: TForm2
   end
   object edt1: TEdit
     Left = 48
-    Top = 380
+    Top = 416
     Width = 233
     Height = 21
     TabOrder = 6
   end
   object edt2: TEdit
     Left = 296
-    Top = 380
+    Top = 416
     Width = 121
     Height = 21
     TabOrder = 7
@@ -211,7 +210,7 @@ object Form2: TForm2
   end
   object cbb1: TComboBox
     Left = 432
-    Top = 380
+    Top = 416
     Width = 145
     Height = 21
     ItemHeight = 13
@@ -224,7 +223,7 @@ object Form2: TForm2
   end
   object btn1: TBitBtn
     Left = 344
-    Top = 332
+    Top = 368
     Width = 137
     Height = 25
     Hint = #1055#1086#1089#1083#1077' '#1085#1072#1078#1072#1090#1080#1103' '#1101#1090#1086#1081' '#1082#1085#1086#1087#1082#1080' '#1085#1077#1083#1100#1079#1103' '#1076#1086#1073#1072#1074#1080#1090#1100' '#1077#1097#1077' '#1086#1076#1080#1085' '#1089#1095#1077#1090' '#1074' '#1086#1090#1074#1077#1090
@@ -236,7 +235,7 @@ object Form2: TForm2
   end
   object mmo3: TMemo
     Left = 424
-    Top = 500
+    Top = 536
     Width = 441
     Height = 89
     Lines.Strings = (

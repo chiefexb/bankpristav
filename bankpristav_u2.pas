@@ -21,6 +21,7 @@ type
     lbl2: TLabel;
     lbl3: TLabel;
     btn1: TBitBtn;
+    mmo3: TMemo;
     procedure FormShow(Sender: TObject);
     procedure btn3Click(Sender: TObject);
     procedure btn2Click(Sender: TObject);
@@ -172,9 +173,11 @@ var
  sq:AnsiString;
 begin
   sq:='UPDATE REQUESTS SET processed =1   WHERE PK = '+(DM.ibqry1.FieldByName('PK').asString);
-  dM.ibqry2.SQL.Text:=sq;
-  DM.ibqry2.ExecSQL;
-  DM.ibtrnsctn1.Commit;
+  //dM.ibqry2.SQL.Text:=sq;
+  //DM.ibqry2.ExecSQL;
+  //DM.ibtrnsctn1.Commit;
+  mmo3.Lines.Clear;
+  //sozdanie otveta
 
 
 end;

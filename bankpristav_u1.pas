@@ -22,7 +22,6 @@ type
     N4: TMenuItem;
     N5: TMenuItem;
     mmo1: TMemo;
-    btn4: TButton;
     pm1: TPopupMenu;
     test1: TMenuItem;
     CheckBox1: TCheckBox;
@@ -35,7 +34,6 @@ type
     procedure FormShow(Sender: TObject);
     procedure N4Click(Sender: TObject);
     procedure btn2Click(Sender: TObject);
-    procedure btn4Click(Sender: TObject);
     procedure test1Click(Sender: TObject);
     procedure dbgrd1DblClick(Sender: TObject);
     procedure btn3Click(Sender: TObject);
@@ -120,10 +118,13 @@ procedure TForm1.btn2Click(Sender: TObject);
  var
     SR:TSearchRec;
     FindRes:Integer;
-    path:string;
+    path,patharc:ANSIstring;
+    f1,f2:AnsiString;
+    p1,p2:PAnsiChar;
 begin
   //path:=DM.ibtbl1.FieldByName('INPATH').AsString;
  path:=ExtractFilePath(Application.ExeName)+'In\';
+ pathArc:=ExtractFilePath(Application.ExeName)+'In_arc\';
  mmo1.Lines.Clear;
  mmo1.Lines.Add(path);
  FindRes:=FindFirst(path+'*.dbf',faAnyFile,SR);
@@ -150,7 +151,19 @@ While FindRes=0 do
         mmo1.Lines.Add('Файл: '+SR.Name+'Загружаем...');
 
       LoadDBF(path+SR.Name);
-      end;
+      f1:=path+SR.Name;
+      f2:=patharc+SR.Name;
+      p1:=Pointer( f1);
+      p2:=Pointer(f2);
+      MoveFile(p1,p2);
+      end else
+       begin
+      f1:=path+SR.Name;
+      f2:=patharc+SR.Name;
+      p1:=Pointer( f1);
+      p2:=Pointer(f2);
+      MoveFile(p1,p2);
+         end;
      FindRes:=FindNext(SR);
       end;
 end;
@@ -230,20 +243,6 @@ end
   end
 //procedure LoadDBF (File)
 end;
-procedure TForm1.btn4Click(Sender: TObject);
- var
-   fn:string;
-begin
-Form1.mmo1.Lines.Add('!')  ;
-fn:='C:\bankpristav\In\rz_0902_10.12.2013_1.dbf'  ;
-
-//if DM.ibdtbs1.Connected then   Form1.mmo1.Lines.Add('con')
-LoadDBF(fn);
-
-
-end;
-
-
 procedure TForm1.test1Click(Sender: TObject);
 begin
   mmo1.Lines.Add(form1.dbgrd1.SelectedRows.Items[0]);

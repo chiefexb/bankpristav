@@ -44,7 +44,7 @@ uses bankpristav_dm;
 
 procedure TForm2.FormShow(Sender: TObject);
  var
-   i:Integer;
+   idans,i:Integer;
    s:AnsiString;
 begin
   //Form2.mmo1.Lines.Add(IntToStr(dm.ibqry1.RecNo));
@@ -74,11 +74,14 @@ begin
  DM.ibqry3.SQL.Text:='select * from answer where id_zapr='+(DM.ibqry1.FieldByName('PK').asString);
 
  DM.ibqry3.Open;
+ idans:= DM.ibqry1.fieldbyname('answerid').AsInteger;
  form2.dbgrd1.DataSource:=DM.ds3;
   DM.ibqry4.SQL.Clear;
- DM.ibqry4.SQL.Text:='select * from acc_data';
- DM.ibqry4.Open;
+  if idans>0 then begin
+    DM.ibqry4.SQL.Text:='select * from acc_data where answerpk='+IntToStr(idans)   ;
+   DM.ibqry4.Open;
  form2.dbgrd2.DataSource:=DM.ds4;
+  end;
 
 end;
 

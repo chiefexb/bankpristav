@@ -30,6 +30,7 @@ type
     chklst1: TCheckListBox;
     btn6: TBitBtn;
     btn7: TBitBtn;
+    CheckBox2: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure N4Click(Sender: TObject);
@@ -395,7 +396,7 @@ begin
           chklst1.ItemEnabled[j]:=true;
           //Delete(ll[j]);
           end;
-
+       chklst1.Refresh;
    end;
 
 

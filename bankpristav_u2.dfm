@@ -1,6 +1,6 @@
 object Form2: TForm2
-  Left = 243
-  Top = 124
+  Left = 212
+  Top = 57
   Width = 891
   Height = 648
   Caption = #1057#1086#1079#1076#1072#1085#1080#1077' '#1086#1090#1074#1077#1090#1072
@@ -241,5 +241,14 @@ object Form2: TForm2
     Lines.Strings = (
       'mmo3')
     TabOrder = 10
+  end
+  object btn4: TButton
+    Left = 496
+    Top = 368
+    Width = 75
+    Height = 25
+    Caption = #1054#1073#1085#1086#1074#1080#1090#1100
+    TabOrder = 11
+    OnClick = btn4Click
   end
 end

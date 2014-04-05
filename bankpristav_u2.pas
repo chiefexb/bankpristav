@@ -22,10 +22,12 @@ type
     lbl3: TLabel;
     btn1: TBitBtn;
     mmo3: TMemo;
+    btn4: TButton;
     procedure FormShow(Sender: TObject);
     procedure btn3Click(Sender: TObject);
     procedure btn2Click(Sender: TObject);
     procedure btn1Click(Sender: TObject);
+    procedure btn4Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -124,10 +126,11 @@ end;
 procedure TForm2.btn2Click(Sender: TObject);
 var
   pkans,pkacc:LongInt;
-   sql,sq:AnsiString;
+   pk,sql,sq:AnsiString;
 begin
 //  счет 42307810860311008389 8585/1 Остаток 194 RUR
-if DM.ibqry1.FieldByName('ANSWERID').AsInteger<>null then
+pk:=(DM.ibqry1.FieldByName('PK').asString);
+if DM.ibqry1.FieldByName('ANSWERID').AsInteger<>0 then
   pkans:= DM.ibqry1.FieldByName('ANSWERID').AsInteger
   else  pkans:=Getgenerator('PK_ANSWER'); //PK_ACC_DATA
 pkacc:=Getgenerator('PK_ACC_DATA'); //PK_ACC_DATA
@@ -161,14 +164,15 @@ sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, 
   DM.ibqry2.SQL.Clear;
   DM.ibqry2.SQL.Text:=sq;
   DM.ibqry2.ExecSQL;
-  sq:='UPDATE REQUESTS SET ANSWERID ='+IntToStr(pkans) +'   WHERE PK = '+(DM.ibqry1.FieldByName('PK').asString);
+  sq:='UPDATE REQUESTS SET ANSWERID ='+IntToStr(pkans) +'   WHERE PK = '+pk;
   DM.ibtrnsctn1.Commit;
   DM.ibqry2.SQL.Clear;
   DM.ibqry2.SQL.Text:=sq;
   DM.ibqry2.ExecSQL;
   DM.ibtrnsctn1.Commit;
   dbgrd1.Refresh;
-
+  dbgrd2.Refresh;
+  FormShow(Sender);
   end;
 
 procedure TForm2.btn1Click(Sender: TObject);
@@ -183,6 +187,11 @@ begin
   //sozdanie otveta
 
 
+end;
+
+procedure TForm2.btn4Click(Sender: TObject);
+begin
+  FormShow(Sender);
 end;
 
 end.

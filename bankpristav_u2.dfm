@@ -1,8 +1,8 @@
 object Form2: TForm2
-  Left = 212
-  Top = 57
+  Left = 218
+  Top = 4
   Width = 891
-  Height = 648
+  Height = 661
   Caption = #1057#1086#1079#1076#1072#1085#1080#1077' '#1086#1090#1074#1077#1090#1072
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -57,10 +57,11 @@ object Form2: TForm2
     Left = 0
     Top = 536
     Width = 425
-    Height = 606
+    Height = 89
     Align = alCustom
     Lines.Strings = (
       'mmo2')
+    ScrollBars = ssVertical
     TabOrder = 1
   end
   object dbgrd1: TDBGrid
@@ -240,6 +241,7 @@ object Form2: TForm2
     Height = 89
     Lines.Strings = (
       'mmo3')
+    ScrollBars = ssVertical
     TabOrder = 10
   end
   object btn4: TButton

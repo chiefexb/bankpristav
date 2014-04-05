@@ -35,6 +35,7 @@ type
   end;
 
 var
+  pk:string;
   Form2: TForm2;
   
 
@@ -50,6 +51,7 @@ procedure TForm2.FormShow(Sender: TObject);
    s:AnsiString;
 begin
   //Form2.mmo1.Lines.Add(IntToStr(dm.ibqry1.RecNo));
+  pk:=(DM.ibqry1.FieldByName('PK').asString);
    s:='';
    mmo1.Lines.Clear;
    if dm.ibqry1.FieldByName('Processed').AsInteger=1 then begin
@@ -126,10 +128,10 @@ end;
 procedure TForm2.btn2Click(Sender: TObject);
 var
   pkans,pkacc:LongInt;
-   pk,sql,sq:AnsiString;
+  sql,sq:AnsiString;
 begin
 //  счет 42307810860311008389 8585/1 ќстаток 194 RUR
-pk:=(DM.ibqry1.FieldByName('PK').asString);
+//pk:=(DM.ibqry1.FieldByName('PK').asString);
 if DM.ibqry1.FieldByName('ANSWERID').AsInteger<>0 then
   pkans:= DM.ibqry1.FieldByName('ANSWERID').AsInteger
   else  pkans:=Getgenerator('PK_ANSWER'); //PK_ACC_DATA
@@ -172,18 +174,49 @@ sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, 
   DM.ibtrnsctn1.Commit;
   dbgrd1.Refresh;
   dbgrd2.Refresh;
-  FormShow(Sender);
+ // FormShow(Sender);
   end;
 
 procedure TForm2.btn1Click(Sender: TObject);
 var
- sq:AnsiString;
+ path,fname,text,sq:AnsiString;
+ ansid:string;
+
 begin
-  sq:='UPDATE REQUESTS SET processed =1   WHERE PK = '+(DM.ibqry1.FieldByName('PK').asString);
+  dm.ibqry4.SQL.Text:='select requests.answerid from requests where pk='+pk;
+  dm.ibqry4.Open;
+  dm.ibqry4.First;
+  ansid:=dm.ibqry4.Fields[0].AsString;
+  sq:='UPDATE REQUESTS SET processed =1   WHERE PK = '+pk;
   //dM.ibqry2.SQL.Text:=sq;
   //DM.ibqry2.ExecSQL;
   //DM.ibtrnsctn1.Commit;
   mmo3.Lines.Clear;
+  mmo2.Lines.Add(sq);
+  dm.ibqry4.SQL.Text:='select * from acc_data where acc_data.answerpk=(select requests.answerid from requests where pk='+pk+')';
+  dm.ibqry4.Open;
+  dm.ibqry4.First;
+  //—чет 42301810060310574746 8585/19 ќстаток 0 RUR
+  text:='';
+  repeat
+    text:=text+'—чет '+Dm.ibqry4.fieldbyname('ACC').AsString+' ' ;
+    text:=text+'ќстаток '+ Dm.ibqry4.fieldbyname('Summa').AsString+' ' ;
+    text:=text+ Dm.ibqry4.fieldbyname('currency_code').AsString+' ' ;
+    dm.ibqry4.Next;
+  until DM.ibqry4.Eof;
+  mmo3.Text:=text;
+  mmo2.Lines.add( IntToStr(length(text)) ) ;
+
+  dm.ibqry4.SQL.Text:='select filename from requests where pk='+pk;
+  dm.ibqry4.Open;
+  dm.ibqry4.First;
+  fname:=dm.ibqry4.Fields[0].AsString;
+
+  fname:='o'+StringReplace(fname,'.dbf','',[])+'_'+ansid+'.txt';
+  mmo2.Lines.Add(fname);
+  path:=ExtractfilePath(application.exename)+'Temp\' ;
+  RemoveFile
+  mmo3.Lines.SaveToFile(path+fname);
   //sozdanie otveta
 
 

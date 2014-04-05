@@ -1,8 +1,8 @@
 object Form1: TForm1
-  Left = 222
-  Top = 134
+  Left = 218
+  Top = 94
   Width = 886
-  Height = 572
+  Height = 565
   Caption = #1041#1072#1085#1082' '#1055#1088#1080#1089#1090#1072#1074
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -65,7 +65,7 @@ object Form1: TForm1
   end
   object mmo1: TMemo
     Left = 0
-    Top = 454
+    Top = 447
     Width = 878
     Height = 64
     Align = alBottom

@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Grids, DBGrids, ToolWin, ComCtrls, StdCtrls,StrUtils, Buttons;
+  Dialogs, Grids, DBGrids, ToolWin, ComCtrls, StdCtrls,StrUtils, Buttons,Db;
 
 type
   TForm2 = class(TForm)
@@ -132,11 +132,14 @@ var
 begin
 //  счет 42307810860311008389 8585/1 Остаток 194 RUR
 //pk:=(DM.ibqry1.FieldByName('PK').asString);
+if Length(edt1.Text)>=20 then begin
+
+
 if DM.ibqry1.FieldByName('ANSWERID').AsInteger<>0 then
   pkans:= DM.ibqry1.FieldByName('ANSWERID').AsInteger
   else  pkans:=Getgenerator('PK_ANSWER'); //PK_ACC_DATA
 pkacc:=Getgenerator('PK_ACC_DATA'); //PK_ACC_DATA
-sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, RESULT, TEXT, FILENAME) VALUES (';
+sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, RESULT, TEXT, PROCESSED) VALUES (';
   sq:=sql;
   sq:=sq+IntToStr(pkans)+', ';
 
@@ -148,7 +151,7 @@ sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, 
   sq:=sq+QuotedStr('/')+', ';
   sq:=sq+QuotedStr(DateToStr(now))+', ';
   sq:=sq+intToStr(1)+', ';
-  sq:=sq+QuotedStr('Есть счета')+', Null)' ;
+  sq:=sq+QuotedStr('Есть счета')+', 0)' ;
   mmo2.Lines.Add(sq) ;
   DM.ibqry2.SQL.Clear;
   DM.ibqry2.SQL.Text:=sq;
@@ -175,6 +178,8 @@ sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, 
   dbgrd1.Refresh;
   dbgrd2.Refresh;
  // FormShow(Sender);
+ end else Application.MessageBox('Счет должен быть не менее 20 символов','Ошибка ввода',mrNone);
+
   end;
 
 procedure TForm2.btn1Click(Sender: TObject);
@@ -188,9 +193,9 @@ begin
   dm.ibqry4.First;
   ansid:=dm.ibqry4.Fields[0].AsString;
   sq:='UPDATE REQUESTS SET processed =1   WHERE PK = '+pk;
-  //dM.ibqry2.SQL.Text:=sq;
-  //DM.ibqry2.ExecSQL;
-  //DM.ibtrnsctn1.Commit;
+  dM.ibqry2.SQL.Text:=sq;
+  DM.ibqry2.ExecSQL;
+  DM.ibtrnsctn1.Commit;
   mmo3.Lines.Clear;
   mmo2.Lines.Add(sq);
   dm.ibqry4.SQL.Text:='select * from acc_data where acc_data.answerpk=(select requests.answerid from requests where pk='+pk+')';
@@ -206,6 +211,8 @@ begin
   until DM.ibqry4.Eof;
   mmo3.Text:=text;
   mmo2.Lines.add( IntToStr(length(text)) ) ;
+  if length(text) >252 then begin
+
 
   dm.ibqry4.SQL.Text:='select filename from requests where pk='+pk;
   dm.ibqry4.Open;
@@ -220,8 +227,19 @@ begin
   //sozdanie otveta
   //mmo2.Lines.a
   // UPDATE ANSWER SET   FILENAME = NULL,CESSED = 0, textfile WHERE (PK = 15);
-
-
+  sq:='update answer set filename=:filename,textfile=:textfile where pk=(select requests.answerid from requests where pk='+pk+')' ;
+  dm.ibqry4.SQL.Text:=sq;
+  dm.ibqry4.ParamByName('filename').Text:=quotedstr(fname);
+  dm.ibqry4.ParamByName('textfile').LoadFromFile(path+fname,ftMemo	); // TblobType
+  dm.ibqry4.ExecSQL;
+  dm.ibtrnsctn1.Commit;
+  end else
+  begin
+   sq:='update answer set text='+quotedStr(text)+' where pk=(select requests.answerid from requests where pk='+pk+')';
+   dm.ibqry4.SQL.Text:=sq;
+   dm.ibqry4.ExecSQL;
+   dm.ibtrnsctn1.Commit;
+  end;
 
 
 

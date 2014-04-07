@@ -215,9 +215,15 @@ begin
   fname:='o'+StringReplace(fname,'.dbf','',[])+'_'+ansid+'.txt';
   mmo2.Lines.Add(fname);
   path:=ExtractfilePath(application.exename)+'Temp\' ;
-  RemoveFile
+  //RemoveFile
   mmo3.Lines.SaveToFile(path+fname);
   //sozdanie otveta
+  //mmo2.Lines.a
+  // UPDATE ANSWER SET   FILENAME = NULL,CESSED = 0, textfile WHERE (PK = 15);
+
+
+
+
 
 
 end;

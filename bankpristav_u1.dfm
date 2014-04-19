@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 218
-  Top = 97
+  Left = 237
+  Top = 114
   Width = 886
   Height = 565
   Caption = #1041#1072#1085#1082' '#1055#1088#1080#1089#1090#1072#1074
@@ -43,7 +43,7 @@ object Form1: TForm1
     Left = 0
     Top = 64
     Width = 861
-    Height = 264
+    Height = 241
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
     PopupMenu = pm1
     TabOrder = 1
@@ -81,8 +81,8 @@ object Form1: TForm1
     OnClick = CheckBox1Click
   end
   object btn3: TButton
-    Left = 144
-    Top = 400
+    Left = 152
+    Top = 416
     Width = 225
     Height = 25
     Caption = #1058#1077#1089#1090' '#1089#1086#1079#1076#1072#1085#1080#1103' '#1086#1090#1074#1077#1090#1072' '#1044#1041#1060
@@ -100,7 +100,7 @@ object Form1: TForm1
   end
   object chklst1: TCheckListBox
     Left = 0
-    Top = 336
+    Top = 312
     Width = 121
     Height = 97
     ItemHeight = 13
@@ -109,17 +109,17 @@ object Form1: TForm1
     TabOrder = 7
   end
   object btn6: TBitBtn
-    Left = 144
-    Top = 336
-    Width = 225
+    Left = 128
+    Top = 312
+    Width = 233
     Height = 25
     Caption = #1057#1087#1080#1089#1086#1082' '#1087#1072#1082#1077#1090#1086#1074
     TabOrder = 8
     OnClick = btn6Click
   end
   object btn7: TBitBtn
-    Left = 240
-    Top = 368
+    Left = 232
+    Top = 344
     Width = 129
     Height = 25
     Hint = #1055#1088#1086#1074#1077#1088#1103#1077#1090' '#1075#1086#1090#1086#1074' '#1083#1080' '#1087#1072#1082#1077#1090' '#1082' '#1074#1099#1075#1088#1091#1079#1082#1077' '#1080' '#1074#1099#1075#1088#1091#1078#1077#1085' '#1083#1080' '#1086#1085
@@ -128,13 +128,21 @@ object Form1: TForm1
     OnClick = btn7Click
   end
   object CheckBox2: TCheckBox
-    Left = 144
-    Top = 376
+    Left = 128
+    Top = 344
     Width = 97
     Height = 16
     Hint = #1056#1072#1079#1088#1077#1096#1080#1090#1100' '#1074#1099#1075#1088#1091#1078#1072#1090#1100' '#1086#1090#1074#1077#1090#1099' '#1087#1086' '#1074#1099#1075#1088#1091#1078#1077#1085#1085#1099#1084
     Caption = #1042#1099#1075#1088#1091#1078#1077#1085#1085#1099#1077
     TabOrder = 10
+  end
+  object btn4: TButton
+    Left = 128
+    Top = 376
+    Width = 233
+    Height = 25
+    Caption = #1055#1088#1086#1074#1077#1088#1082#1072' '#1074#1099#1075#1088#1091#1078#1077#1085
+    TabOrder = 11
   end
   object mm1: TMainMenu
     Left = 696

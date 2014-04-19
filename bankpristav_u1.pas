@@ -31,6 +31,7 @@ type
     btn6: TBitBtn;
     btn7: TBitBtn;
     CheckBox2: TCheckBox;
+    btn4: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure N4Click(Sender: TObject);
@@ -261,6 +262,7 @@ tbl1:TDBF;
 y,m,d,i,h,mm,ss,ms:word;
 st,fname:string;
 begin
+  //выгрузить выбранные
   DM.ibqry3.SQL.Clear;
   DM.ibqry3.SQL.Text:='select answer.*,requests.filename,requests.packet_id   from answer  join requests on requests.pk=answer.id_zapr    where packet_id=14';
   DM.ibqry3.Open;
@@ -386,16 +388,23 @@ begin
          //chklst1.Items.Delete(i);
 
         end
-         else   mmo1.Lines.Add(chklst1.Items[i]+'-test ok')
+         else begin
+           mmo1.Lines.Add(chklst1.Items[i]+'-test ok');
+           //Проверка
+           dm.ibqry2.SQL.Text:='select processed from answer where answer.pk in (select requests.answerid from requests where requests.packet_id='+chklst1.Items[i]+')';
+           DM.ibqry2.Open;
+           if dm.ibqry2.FieldByName('Processed').AsInteger=0 then   chklst1.ItemEnabled[i]:=true;
+
+           end;
 
 
        end;
 
-       if length(ll)>0 then begin
-        for j:=0 to Length(ll)-1 do
-          chklst1.ItemEnabled[j]:=true;
-          //Delete(ll[j]);
-          end;
+      // if length(ll)>0 then begin
+      //  for j:=0 to Length(ll)-1 do
+      //    chklst1.ItemEnabled[j]:=true;
+       //   //Delete(ll[j]);
+       //   end;
        chklst1.Refresh;
    end;
 

@@ -1,6 +1,6 @@
 object Form3: TForm3
   Left = 257
-  Top = 189
+  Top = 190
   BorderStyle = bsDialog
   Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
   ClientHeight = 417

@@ -31,7 +31,6 @@ type
     btn6: TBitBtn;
     btn7: TBitBtn;
     CheckBox2: TCheckBox;
-    btn4: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure N4Click(Sender: TObject);
@@ -43,6 +42,7 @@ type
     procedure CheckBox1Click(Sender: TObject);
     procedure btn6Click(Sender: TObject);
     procedure btn7Click(Sender: TObject);
+    procedure N2Click(Sender: TObject);
     //procedure btn3Click(Sender: TObject);
      //procedure LoadDBF(Filename:String);
 
@@ -253,64 +253,89 @@ end;
 procedure TForm1.dbgrd1DblClick(Sender: TObject);
 begin
   //form Form1.dbgrd1.SelectedIndex
- form2.show;
+ form2.ShowModal;
+ form2.OnShow(Sender);
 end;
 
 procedure TForm1.btn3Click(Sender: TObject);
 var
 tbl1:TDBF;
-y,m,d,i,h,mm,ss,ms:word;
-st,fname:string;
+y,m,d,j,i,h,mm,ss,ms:word;
+k:Integer;
+pk,st,fname:string;
+buff:TBlobByteData;
+f1:file of Byte;
 begin
   //выгрузить выбранные
-  DM.ibqry3.SQL.Clear;
-  DM.ibqry3.SQL.Text:='select answer.*,requests.filename,requests.packet_id   from answer  join requests on requests.pk=answer.id_zapr    where packet_id=14';
-  DM.ibqry3.Open;
-  Tbl1:=TDBF.Create(Form1);
-  //UNICODE,N,10,0	ID_ZAPR,N,10,0	NUMISP,C,40	DT,D	NUM,C,40	NUMRES,C,40	DTRES,D	RESULT,N,4,0	TEXT,C,253	FILENAME,C,30
-  tbl1.AddFieldDefs('UNICODE',bfNumber,10,0);
-  tbl1.AddFieldDefs('NUMISP',bfString,40,0 );
-  tbl1.AddFieldDefs('DT',bfDate,8,0);
-  tbl1.AddFieldDefs('NUM',bfString,40,0 );
-  tbl1.AddFieldDefs('NUMRES',bfString,40,0);
-  tbl1.AddFieldDefs('DTRES',bfDate,8,0);
-  tbl1.AddFieldDefs('RESULT',bfNumber,4,0);
-  tbl1.AddFieldDefs('TEXT',bfString,253,0);
-  tbl1.AddFieldDefs('FILENAME',bfString,30,0);
-  fname:=ExtractFilePath(Application.ExeName)+'o'+ DM.ibqry3.Fieldbyname('FILENAME1').AsString ;
-  tbl1.TableName:= fname;
-   //'rez.dbf';
+  //select answer.textfile from answer where pk=
+  for j:=0 to chklst1.Items.Count -1 do
+   if chklst1.Checked[j] then
+    begin
+     form1.mmo1.Lines.Add(chklst1.Items[j]);
+     DM.ibqry3.SQL.Clear;
+     DM.ibqry3.SQL.Text:='select answer.*,requests.filename,requests.packet_id   from answer  join requests on requests.pk=answer.id_zapr    where packet_id='+chklst1.Items[j];
+     DM.ibqry3.Open;
+     Tbl1:=TDBF.Create(Form1);
+     //UNICODE,N,10,0	ID_ZAPR,N,10,0	NUMISP,C,40	DT,D	NUM,C,40	NUMRES,C,40	DTRES,D	RESULT,N,4,0	TEXT,C,253	FILENAME,C,30
+     tbl1.AddFieldDefs('UNICODE',bfNumber,10,0);
+     tbl1.AddFieldDefs('NUMISP',bfString,40,0 );
+     tbl1.AddFieldDefs('DT',bfDate,8,0);
+     tbl1.AddFieldDefs('NUM',bfString,40,0 );
+     tbl1.AddFieldDefs('NUMRES',bfString,40,0);
+     tbl1.AddFieldDefs('DTRES',bfDate,8,0);
+     tbl1.AddFieldDefs('RESULT',bfNumber,4,0);
+     tbl1.AddFieldDefs('TEXT',bfString,253,0);
+     tbl1.AddFieldDefs('FILENAME',bfString,30,0);
+     fname:=ExtractFilePath(Application.ExeName)+'Out\'+'o'+ DM.ibqry3.Fieldbyname('FILENAME1').AsString ;
+     tbl1.TableName:= fname;
+     //'rez.dbf';
+     tbl1.CreateTable;
+     tbl1.CodePage:=OEM;
+     //tbl1.Append;
+     dm.ibqry3.First;
+     repeat
+      tbl1.Insert;
+      for i:=1 to tbl1.FieldCount do
+       begin
+        st:='';
+        if tbl1.GetFieldType(i)=bfDate then
+          begin
+           DecodeDateTime(DM.ibqry3.Fields[i+1].AsDateTime,y,m,d,h,mm,ss,ms);
+           if d<10 then st:=st+'0';
+           st:=st+IntToStr(d)+'.';
+           if m<10 then st:=st+'0';
+           st:=st+intTostr(m)+'.'+IntToStr(y)[3]+InttoStr(y)[4]  ;
+           tbl1.SetFieldData(i,st);
+          end else
+          if   tbl1.GetFieldType(i)=bfString then
+            begin
+             st:=  DM.ibqry3.Fields[i+1].AsString ;
+             tbl1.Translate(st,st,True) ;
+             tbl1.SetFieldData(i,st);
+            end
+          else
+           tbl1.SetFieldData(i, DM.ibqry3.Fields[i+1].AsString );
 
-  tbl1.CreateTable;
-  tbl1.CodePage:=OEM;
-  //tbl1.Append;
-  dm.ibqry3.First;
-  repeat
-  tbl1.Insert;
-  for i:=1 to tbl1.FieldCount do begin
-  st:='';
-  if tbl1.GetFieldType(i)=bfDate then  begin
-   DecodeDateTime(DM.ibqry3.Fields[i+1].AsDateTime,y,m,d,h,mm,ss,ms);
-   if d<10 then st:=st+'0';
-   st:=st+IntToStr(d)+'.';
-   if m<10 then st:=st+'0';
-   st:=st+intTostr(m)+'.'+IntToStr(y)[3]+InttoStr(y)[4]  ;
-   tbl1.SetFieldData(i,st);
-  end else
-   if   tbl1.GetFieldType(i)=bfString then  begin
-    st:=  DM.ibqry3.Fields[i+1].AsString ;
-    tbl1.Translate(st,st,True) ;
-    tbl1.SetFieldData(i,st);
-   end
-   else
-   tbl1.SetFieldData(i, DM.ibqry3.Fields[i+1].AsString );
 
+        end;
+    if DM.ibqry3.FieldByName('filename').AsString<>'' then  begin
+        DM.ibqry3.GetBlobFieldData(12,buff);
+        AssignFile (f1, ExtractFilePath(Application.ExeName)+'Out\'+DM.ibqry3.FieldByName('filename').AsString);
+        Rewrite(f1);
+        for k:=0 to Length(buff) do
+         write(f1,buff[k]);
+        Closefile(f1);
+     pk:=DM.ibqry3.FieldByName('pk').AsString  ;
+     DM.ibqry4.SQL.Text:='update answer set processed=1 where pk='+pk;
+     dm.ibqry4.ExecSQL;
 
-  end;
-  tbl1.Post;
-  dm.ibqry3.Next
+    end;
+    tbl1.Post;
+    dm.ibqry3.Next
   until dm.ibqry3.Eof;
   tbl1.Close;
+end;
+DM.ibtrnsctn1.Commit;
 end;
 
 procedure TForm1.btn5Click(Sender: TObject);
@@ -345,6 +370,8 @@ end;
 
 procedure TForm1.btn6Click(Sender: TObject);
 begin
+btn7.Enabled:=True;
+
 DM.ibqry2.SQL.Text:='select requests.packet_id from requests  group by packet_id';
 dm.ibqry2.Open;
 dm.ibqry2.First;
@@ -380,20 +407,25 @@ begin
          dm.ibqry2.Next;
        until dm.ibqry2.Eof or ff;
 
-        if ff then begin
-         mmo1.Lines.Add(chklst1.Items[i]+'-test false');
-         inc(k);
-         SetLength(LL,k);
-         LL[k-1]:=i;
+        if ff then
+          begin
+            mmo1.Lines.Add(chklst1.Items[i]+'-test false');
+            inc(k);
+            SetLength(LL,k);
+            LL[k-1]:=i;
          //chklst1.Items.Delete(i);
 
-        end
-         else begin
+           end
+         else
+          begin
            mmo1.Lines.Add(chklst1.Items[i]+'-test ok');
            //Проверка
            dm.ibqry2.SQL.Text:='select processed from answer where answer.pk in (select requests.answerid from requests where requests.packet_id='+chklst1.Items[i]+')';
            DM.ibqry2.Open;
-           if dm.ibqry2.FieldByName('Processed').AsInteger=0 then   chklst1.ItemEnabled[i]:=true;
+           if not CheckBox2.Checked then
+              begin
+                if dm.ibqry2.FieldByName('Processed').AsInteger=0 then   chklst1.ItemEnabled[i]:=true
+              end     else  chklst1.ItemEnabled[i]:=true;
 
            end;
 
@@ -406,7 +438,13 @@ begin
        //   //Delete(ll[j]);
        //   end;
        chklst1.Refresh;
+       btn3.Enabled:=True;
    end;
 
+
+procedure TForm1.N2Click(Sender: TObject);
+begin
+Form1.Close;
+end;
 
 end.

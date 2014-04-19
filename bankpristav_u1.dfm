@@ -1,6 +1,6 @@
 object Form1: TForm1
   Left = 237
-  Top = 114
+  Top = 102
   Width = 886
   Height = 565
   Caption = #1041#1072#1085#1082' '#1055#1088#1080#1089#1090#1072#1074
@@ -81,11 +81,12 @@ object Form1: TForm1
     OnClick = CheckBox1Click
   end
   object btn3: TButton
-    Left = 152
-    Top = 416
+    Left = 136
+    Top = 376
     Width = 225
     Height = 25
     Caption = #1058#1077#1089#1090' '#1089#1086#1079#1076#1072#1085#1080#1103' '#1086#1090#1074#1077#1090#1072' '#1044#1041#1060
+    Enabled = False
     TabOrder = 5
     OnClick = btn3Click
   end
@@ -96,6 +97,7 @@ object Form1: TForm1
     Height = 25
     Caption = #1058#1077#1089#1090' '#1044#1041#1060
     TabOrder = 6
+    Visible = False
     OnClick = btn5Click
   end
   object chklst1: TCheckListBox
@@ -124,6 +126,7 @@ object Form1: TForm1
     Height = 25
     Hint = #1055#1088#1086#1074#1077#1088#1103#1077#1090' '#1075#1086#1090#1086#1074' '#1083#1080' '#1087#1072#1082#1077#1090' '#1082' '#1074#1099#1075#1088#1091#1079#1082#1077' '#1080' '#1074#1099#1075#1088#1091#1078#1077#1085' '#1083#1080' '#1086#1085
     Caption = #1055#1088#1086#1074#1077#1088#1082#1072' '#1075#1086#1090#1086#1074#1085#1086#1089#1090#1080
+    Enabled = False
     TabOrder = 9
     OnClick = btn7Click
   end
@@ -136,14 +139,6 @@ object Form1: TForm1
     Caption = #1042#1099#1075#1088#1091#1078#1077#1085#1085#1099#1077
     TabOrder = 10
   end
-  object btn4: TButton
-    Left = 128
-    Top = 376
-    Width = 233
-    Height = 25
-    Caption = #1055#1088#1086#1074#1077#1088#1082#1072' '#1074#1099#1075#1088#1091#1078#1077#1085
-    TabOrder = 11
-  end
   object mm1: TMainMenu
     Left = 696
     Top = 8
@@ -151,12 +146,14 @@ object Form1: TForm1
       Caption = #1060#1072#1081#1083
       object N2: TMenuItem
         Caption = #1042#1099#1093#1086#1076
+        OnClick = N2Click
       end
     end
     object N3: TMenuItem
       Caption = #1055#1088#1072#1074#1082#1072
       object N4: TMenuItem
         Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
+        Enabled = False
         OnClick = N4Click
       end
     end

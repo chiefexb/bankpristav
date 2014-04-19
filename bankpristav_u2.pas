@@ -229,7 +229,7 @@ begin
   // UPDATE ANSWER SET   FILENAME = NULL,CESSED = 0, textfile WHERE (PK = 15);
   sq:='update answer set filename=:filename,textfile=:textfile where pk=(select requests.answerid from requests where pk='+pk+')' ;
   dm.ibqry4.SQL.Text:=sq;
-  dm.ibqry4.ParamByName('filename').Text:=quotedstr(fname);
+  dm.ibqry4.ParamByName('filename').Text:=(fname);
   dm.ibqry4.ParamByName('textfile').LoadFromFile(path+fname,ftMemo	); // TblobType
   dm.ibqry4.ExecSQL;
   dm.ibtrnsctn1.Commit;

@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, ComCtrls, ToolWin, DB, IBCustomDataSet, IBQuery, IBSQL,
   IBDatabase, StdCtrls, Grids, DBGrids, ADODB,dbf,DateUtils, CheckLst,
-  Buttons;
+  Buttons, Mask, DBCtrls;
  procedure setdescription;
 type
   TForm1 = class(TForm)
@@ -31,6 +31,11 @@ type
     btn6: TBitBtn;
     btn7: TBitBtn;
     CheckBox2: TCheckBox;
+    edt1: TEdit;
+    btn4: TBitBtn;
+    dbedt1: TDBEdit;
+    edt2: TEdit;
+    btn8: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure N4Click(Sender: TObject);
@@ -43,6 +48,11 @@ type
     procedure btn6Click(Sender: TObject);
     procedure btn7Click(Sender: TObject);
     procedure N2Click(Sender: TObject);
+    procedure dbgrd1CellClick(Column: TColumn);
+    procedure btn4Click(Sender: TObject);
+    procedure FormResize(Sender: TObject);
+    procedure dbedt1DblClick(Sender: TObject);
+    procedure btn8Click(Sender: TObject);
     //procedure btn3Click(Sender: TObject);
      //procedure LoadDBF(Filename:String);
 
@@ -88,13 +98,17 @@ if  not DM.ibdtbs1.Connected then begin
  // Dm.ibtbl1.Database:=DM.ibdtbs1;
  // DM.ibtbl1.TableName:='DIVINFO';
   //DM.ibtbl1.Active:=True;
-
+   dbgrd1.Width:=form1.Width-16;
+end;
   dm.ibqry1.SQL.Text:='select * from requests where processed=0'  ;
   dm.ibqry1.Open;
   setdescription;
   form1.dbgrd1.DataSource:=DM.ds1 ;
+  Form1.dbedt1.DataSource:=DM.ds1;
+  form1.dbedt1.dataField:='FIOORG';
+  btn4.Click;
 
-end;
+
 
 end;
 procedure setdescription;
@@ -253,8 +267,16 @@ end;
 procedure TForm1.dbgrd1DblClick(Sender: TObject);
 begin
   //form Form1.dbgrd1.SelectedIndex
+if DM.ibqry1.RecordCount>0 then begin
+
+
+ proc:=form1.CheckBox1.Checked;
+ pk:=(DM.ibqry1.FieldByName('PK').asString);
  form2.ShowModal;
- form2.OnShow(Sender);
+ //pk:='0';
+ form1.OnShow(Sender);
+ end else  MessageDlg('Нет запросов для обработки', mtError, [mbOk], 0)
+
 end;
 
 procedure TForm1.btn3Click(Sender: TObject);
@@ -262,7 +284,7 @@ var
 tbl1:TDBF;
 y,m,d,j,i,h,mm,ss,ms:word;
 k:Integer;
-pk,st,fname:string;
+pk2,st,fname:string;
 buff:TBlobByteData;
 f1:file of Byte;
 begin
@@ -325,12 +347,13 @@ begin
         for k:=0 to Length(buff) do
          write(f1,buff[k]);
         Closefile(f1);
-     pk:=DM.ibqry3.FieldByName('pk').AsString  ;
-     DM.ibqry4.SQL.Text:='update answer set processed=1 where pk='+pk;
-     dm.ibqry4.ExecSQL;
+
 
     end;
     tbl1.Post;
+    pk2:=DM.ibqry3.FieldByName('pk').AsString  ;
+    DM.ibqry4.SQL.Text:='update answer set processed=1 where pk='+pk2;
+    dm.ibqry4.ExecSQL;
     dm.ibqry3.Next
   until dm.ibqry3.Eof;
   tbl1.Close;
@@ -359,13 +382,14 @@ procedure TForm1.CheckBox1Click(Sender: TObject);
  var
   sql:AnsiString;
 begin
- if CheckBox1.Checked then  sql:= 'select * from requests where processed=1'
+ {if CheckBox1.Checked then  sql:= 'select * from requests where processed=1'
   else   sql:= 'select * from requests where processed=0';
   dm.ibqry1.Close;
   DM.ibqry1.SQL.Text:=sql;
   dm.ibqry1.Open;
   setdescription;
-  Form1.dbgrd1.Refresh;
+  Form1.dbgrd1.Refresh;  }
+  btn4.Click;
 end;
 
 procedure TForm1.btn6Click(Sender: TObject);
@@ -425,6 +449,7 @@ begin
            if not CheckBox2.Checked then
               begin
                 if dm.ibqry2.FieldByName('Processed').AsInteger=0 then   chklst1.ItemEnabled[i]:=true
+                else chklst1.ItemEnabled[i]:=False;
               end     else  chklst1.ItemEnabled[i]:=true;
 
            end;
@@ -445,6 +470,50 @@ begin
 procedure TForm1.N2Click(Sender: TObject);
 begin
 Form1.Close;
+end;
+
+procedure TForm1.dbgrd1CellClick(Column: TColumn);
+begin
+  edt1.Text:=Column.FieldName;
+
+end;
+
+procedure TForm1.btn4Click(Sender: TObject);
+ var
+   proc:Integer;
+begin
+  if CheckBox1.Checked then
+   proc:=1
+  else
+  proc:=0  ;
+ dm.ibqry1.SQL.Text:='select * from requests where processed= '+IntToStr(proc)+' order by '+Edt1.Text;
+ dm.ibqry1.Open;
+ setdescription
+end;
+
+procedure TForm1.FormResize(Sender: TObject);
+begin
+dbgrd1.Width:=form1.Width-16;
+end;
+
+procedure TForm1.dbedt1DblClick(Sender: TObject);
+begin
+dbedt1.SelectAll;
+dbedt1.CopyToClipboard;
+end;
+
+procedure TForm1.btn8Click(Sender: TObject);
+var
+ proc:integer;
+begin
+if CheckBox1.Checked then
+   proc:=1
+  else
+  proc:=0  ;
+ dm.ibqry1.SQL.Text:='select * from requests where processed= '+IntToStr(proc)+' and upper(requests.fioorg)  containing upper('+QuotedStr( edt2.Text)+  ') order by '+Edt1.Text;
+ dm.ibqry1.Open;
+ setdescription
+//select * from requests where upper(requests.fioorg)  containing upper('кова') order by requests.fioorg
 end;
 
 end.

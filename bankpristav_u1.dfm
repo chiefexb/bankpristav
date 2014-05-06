@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 237
-  Top = 102
+  Left = 365
+  Top = 123
   Width = 886
   Height = 565
   Caption = #1041#1072#1085#1082' '#1055#1088#1080#1089#1090#1072#1074
@@ -15,6 +15,7 @@ object Form1: TForm1
   Position = poDesktopCenter
   ShowHint = True
   OnClose = FormClose
+  OnResize = FormResize
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -41,9 +42,9 @@ object Form1: TForm1
   end
   object dbgrd1: TDBGrid
     Left = 0
-    Top = 64
+    Top = 80
     Width = 861
-    Height = 241
+    Height = 225
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
     PopupMenu = pm1
     TabOrder = 1
@@ -52,6 +53,7 @@ object Form1: TForm1
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    OnCellClick = dbgrd1CellClick
     OnDblClick = dbgrd1DblClick
   end
   object btn2: TButton
@@ -139,9 +141,53 @@ object Form1: TForm1
     Caption = #1042#1099#1075#1088#1091#1078#1077#1085#1085#1099#1077
     TabOrder = 10
   end
+  object edt1: TEdit
+    Left = 96
+    Top = 40
+    Width = 121
+    Height = 21
+    ReadOnly = True
+    TabOrder = 11
+    Text = 'FIOORG'
+  end
+  object btn4: TBitBtn
+    Left = 224
+    Top = 40
+    Width = 75
+    Height = 25
+    Caption = #1057#1086#1088#1090#1080#1088#1086#1074#1082#1072
+    TabOrder = 12
+    OnClick = btn4Click
+  end
+  object dbedt1: TDBEdit
+    Left = 312
+    Top = 40
+    Width = 273
+    Height = 21
+    Hint = #1044#1074#1086#1081#1085#1086#1081' '#1097#1077#1083#1095#1086#1082' '#1089#1082#1086#1087#1080#1088#1086#1074#1072#1090#1100' '#1074' '#1073#1091#1092#1077#1088' '#1086#1073#1084#1077#1085#1072
+    ReadOnly = True
+    TabOrder = 13
+    OnDblClick = dbedt1DblClick
+  end
+  object edt2: TEdit
+    Left = 592
+    Top = 40
+    Width = 161
+    Height = 21
+    TabOrder = 14
+  end
+  object btn8: TBitBtn
+    Left = 760
+    Top = 40
+    Width = 113
+    Height = 25
+    Caption = #1048#1089#1082#1072#1090#1100' '#1087#1086' '#1092#1072#1084#1080#1083#1080#1080
+    TabOrder = 15
+    OnClick = btn8Click
+  end
   object mm1: TMainMenu
-    Left = 696
-    Top = 8
+    Left = 584
+    Top = 65528
     object N1: TMenuItem
       Caption = #1060#1072#1081#1083
       object N2: TMenuItem
@@ -162,8 +208,7 @@ object Form1: TForm1
     end
   end
   object pm1: TPopupMenu
-    Left = 640
-    Top = 8
+    Left = 544
     object test1: TMenuItem
       Caption = 'test'
       OnClick = test1Click

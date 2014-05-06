@@ -36,6 +36,7 @@ type
 
 var
   pk:string;
+  proc:boolean;
   Form2: TForm2;
   
 
@@ -51,10 +52,18 @@ procedure TForm2.FormShow(Sender: TObject);
    s:AnsiString;
 begin
   //Form2.mmo1.Lines.Add(IntToStr(dm.ibqry1.RecNo));
-  pk:=(DM.ibqry1.FieldByName('PK').asString);
+  dm.ibqry1.SQL.Text:='select * from requests where pk='+pk  ;
+  dm.ibqry1.Open;
+  //pk:=(DM.ibqry1.FieldByName('PK').asString);
    s:='';
    mmo1.Lines.Clear;
-   if dm.ibqry1.FieldByName('Processed').AsInteger=1 then begin
+   //dm.ibqry2.SQL.Clear;
+   //dm.ibqry2.SQL.Text:='select * from descr where tablename=upper('+quotedStr('Requests')+') and fieldorder='+IntToStr(i);
+   //DM.ibqry2.Open;
+   DM.ibqry3.SQL.Clear;
+   DM.ibqry3.SQL.Text:='select * from answer where id_zapr='+pk;
+   DM.ibqry3.Open;
+   if DM.ibqry1.FieldByName('Processed').AsInteger=1 then begin
      btn2.Enabled:=False;
      btn3.Enabled:=False;
      btn1.Enabled:=False;
@@ -65,6 +74,11 @@ begin
      btn3.Enabled:=True;
      btn1.Enabled:=True;
    end;
+   if dm.ibqry3.RecordCount>0 then
+     btn3.Enabled:=False
+   else
+     btn3.Enabled:=True;
+
   for i:=0 to dm.ibqry1.Fields.Count-1 do  begin
   dm.ibqry2.SQL.Clear;
   dm.ibqry2.SQL.Text:='select * from descr where tablename=upper('+quotedStr('Requests')+') and fieldorder='+IntToStr(i);
@@ -75,7 +89,7 @@ begin
   end;
   //
   DM.ibqry3.SQL.Clear;
- DM.ibqry3.SQL.Text:='select * from answer where id_zapr='+(DM.ibqry1.FieldByName('PK').asString);
+ DM.ibqry3.SQL.Text:='select * from answer where id_zapr='+pk;
 
  DM.ibqry3.Open;
  idans:= DM.ibqry1.fieldbyname('answerid').AsInteger;
@@ -120,7 +134,8 @@ begin
   DM.ibtrnsctn1.Commit;
 
 
-  dbgrd1.Refresh;
+  //dbgrd1.Refresh;
+  Form2.Close;
 
 
 end;
@@ -179,7 +194,7 @@ sql:='INSERT INTO ANSWER (PK, UNICODE, ID_ZAPR, NUMISP, DT, NUM, NUMRES, DTRES, 
   dbgrd2.Refresh;
  // FormShow(Sender);
  end else Application.MessageBox('—чет должен быть не менее 20 символов','ќшибка ввода',mrNone);
-
+ FormShow(Sender);
   end;
 
 procedure TForm2.btn1Click(Sender: TObject);
@@ -239,6 +254,7 @@ begin
    dm.ibqry4.SQL.Text:=sq;
    dm.ibqry4.ExecSQL;
    dm.ibtrnsctn1.Commit;
+   FormShow(Sender);
   end;
 
 

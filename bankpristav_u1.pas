@@ -356,7 +356,7 @@ begin
     //dm.ibqry4.ExecSQL;
     dm.ibqry3.Next
   until dm.ibqry3.Eof;
-  DM.ibqry4.SQL.Text:= 'update answer set processed=1 where pk in(select answer.pk  from answer  join requests on requests.pk=answer.id_zapr    where packet_id='+chklst1.Items[j]+')';
+  DM.ibqry4.SQL.Text:= 'update answer set processed=1 where pk in (select answer.pk  from answer  join requests on requests.pk=answer.id_zapr    where packet_id='+chklst1.Items[j]+')';
   dm.ibqry4.ExecSQL;
   tbl1.Close;
 end;

@@ -4,17 +4,19 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Mask, DBCtrls, ComCtrls, ShellCtrls;
+  Dialogs, StdCtrls, Mask, DBCtrls, ComCtrls, ShellCtrls, Buttons;
 
 type
   TForm3 = class(TForm)
     btn1: TButton;
-    Label1: TLabel;
-    Label2: TLabel;
     dlgOpen1: TOpenDialog;
+    ListBox1: TListBox;
+    ListBox2: TListBox;
+    BitBtn1: TBitBtn;
     procedure dbedtINPATHDblClick(Sender: TObject);
     procedure dbedtINARCPATHDblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -40,7 +42,17 @@ end;
 
 procedure TForm3.FormShow(Sender: TObject);
 begin
-Form3.dlgOpen1.InitialDir:=ExtractFileDir(Application.ExeName)
+ //
+  //form3.dlgOpen1.InitialDir:=ExtractFileDir(Application.ExeName)
+end;
+
+procedure TForm3.BitBtn1Click(Sender: TObject);
+ var
+   i:integer;
+begin
+ //listbox2.Items.
+ for i:=0 to  listbox1.Items.Count-1 do
+  if listbox1.Selected[i] then listbox2.Items.Add(listbox1.Items[i]) ;
 end;
 
 end.

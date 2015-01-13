@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 365
-  Top = 103
+  Left = 326
+  Top = 104
   Width = 886
   Height = 565
   Caption = #1041#1072#1085#1082' '#1055#1088#1080#1089#1090#1072#1074
@@ -185,6 +185,15 @@ object Form1: TForm1
     TabOrder = 15
     OnClick = btn8Click
   end
+  object Button1: TButton
+    Left = 376
+    Top = 312
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 16
+    OnClick = Button1Click
+  end
   object mm1: TMainMenu
     Left = 584
     Top = 65528
@@ -199,7 +208,6 @@ object Form1: TForm1
       Caption = #1055#1088#1072#1074#1082#1072
       object N4: TMenuItem
         Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
-        Enabled = False
         OnClick = N4Click
       end
     end
@@ -213,5 +221,9 @@ object Form1: TForm1
       Caption = 'test'
       OnClick = test1Click
     end
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 496
+    Top = 328
   end
 end

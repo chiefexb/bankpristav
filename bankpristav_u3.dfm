@@ -3,8 +3,8 @@ object Form3: TForm3
   Top = 190
   BorderStyle = bsDialog
   Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
-  ClientHeight = 417
-  ClientWidth = 876
+  ClientHeight = 362
+  ClientWidth = 560
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,31 +16,44 @@ object Form3: TForm3
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 16
-    Top = 8
-    Width = 126
-    Height = 13
-    Caption = #1055#1091#1090#1100' '#1082' '#1087#1072#1087#1082#1077' '#1074#1093#1086#1076#1103#1097#1080#1093':'
-  end
-  object Label2: TLabel
-    Left = 16
-    Top = 48
-    Width = 165
-    Height = 13
-    Caption = #1055#1091#1090#1100' '#1082' '#1087#1072#1087#1082#1077' '#1072#1088#1093#1080#1074#1072' '#1074#1093#1086#1076#1103#1097#1080#1093':'
-  end
   object btn1: TButton
-    Left = 792
-    Top = 384
+    Left = 336
+    Top = 312
     Width = 75
     Height = 25
     Caption = #1055#1088#1080#1084#1077#1085#1080#1090#1100
     ModalResult = 1
     TabOrder = 0
   end
+  object ListBox1: TListBox
+    Left = 16
+    Top = 24
+    Width = 153
+    Height = 281
+    ItemHeight = 13
+    MultiSelect = True
+    TabOrder = 1
+  end
+  object ListBox2: TListBox
+    Left = 272
+    Top = 24
+    Width = 153
+    Height = 281
+    ItemHeight = 13
+    MultiSelect = True
+    TabOrder = 2
+  end
+  object BitBtn1: TBitBtn
+    Left = 184
+    Top = 144
+    Width = 75
+    Height = 25
+    Caption = 'BitBtn1'
+    TabOrder = 3
+    OnClick = BitBtn1Click
+  end
   object dlgOpen1: TOpenDialog
-    Left = 808
-    Top = 336
+    Left = 96
+    Top = 320
   end
 end

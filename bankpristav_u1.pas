@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, ComCtrls, ToolWin, DB, IBCustomDataSet, IBQuery, IBSQL,
   IBDatabase, StdCtrls, Grids, DBGrids, ADODB,dbf,DateUtils, CheckLst,
-  Buttons, Mask, DBCtrls;
+  Buttons, Mask, DBCtrls,Ole2,Oleauto;
  procedure setdescription;
 type
   TForm1 = class(TForm)
@@ -36,6 +36,8 @@ type
     dbedt1: TDBEdit;
     edt2: TEdit;
     btn8: TBitBtn;
+    Button1: TButton;
+    OpenDialog1: TOpenDialog;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure N4Click(Sender: TObject);
@@ -53,6 +55,7 @@ type
     procedure FormResize(Sender: TObject);
     procedure dbedt1DblClick(Sender: TObject);
     procedure btn8Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     //procedure btn3Click(Sender: TObject);
      //procedure LoadDBF(Filename:String);
 
@@ -67,6 +70,7 @@ type
 var
 
   Form1: TForm1;
+  columns:String;
 
     procedure LoadDBF(Filename:String);
 implementation
@@ -95,12 +99,13 @@ if  not DM.ibdtbs1.Connected then begin
   DM.ibdtbs1.Params.LoadFromFile(ExtractFilePath(application.exename)+'baseparam.txt' );
   dm.ibdtbs1.Open;
   DM.ibtrnsctn1.Active:=True;
+  Columns:='DATE_R, PASSPORT,FIOORG ' ;
  // Dm.ibtbl1.Database:=DM.ibdtbs1;
  // DM.ibtbl1.TableName:='DIVINFO';
   //DM.ibtbl1.Active:=True;
    dbgrd1.Width:=form1.Width-16;
 end;
-  dm.ibqry1.SQL.Text:='select * from requests where processed=0'  ;
+  dm.ibqry1.SQL.Text:='select '+columns+' from requests where processed=0'  ;
   dm.ibqry1.Open;
   setdescription;
   form1.dbgrd1.DataSource:=DM.ds1 ;
@@ -115,17 +120,26 @@ procedure setdescription;
 var i:integer;
  begin
    for i:=0 to dm.ibqry1.Fields.count-1 do begin
+    form1.mmo1.Lines.Add( dm.ibqry1.Fields[i].FieldName);
     dm.ibqry2.SQL.Clear;
-   dm.ibqry2.SQL.Text:='select * from descr where tablename=upper('+quotedStr('Requests')+') and fieldorder='+IntToStr(i);
-   DM.ibqry2.Open;
-   DM.ibqry1.Fields[i].DisplayLabel:=  DM.ibqry2.FieldByName('DISPLAYNAME').AsString;
-   dm.ibqry1.Fields[i].DisplayWidth:=dm.ibqry2.FieldByName('DISPLAYWIDTH').AsInteger;
+   //dm.ibqry2.SQL.Text:='select * from descr where tablename=upper('+quotedStr('Requests')+') and ' +;
+   //DM.ibqry2.Open;
+   //DM.ibqry1.Fields[i].DisplayLabel:=  DM.ibqry2.FieldByName('DISPLAYNAME').AsString;
+   //dm.ibqry1.Fields[i].DisplayWidth:=dm.ibqry2.FieldByName('DISPLAYWIDTH').AsInteger;
   end;
  end;
 procedure TForm1.N4Click(Sender: TObject);
+var
+i:integer;
 begin
 //DM.ibtbl1.First;
 //DM.ibtbl1.Edit;
+dm.ibqry1.SQL.Clear;
+dm.ibqry1.SQL.text:='select * from requests'  ;
+ DM.ibqry1.Open;
+for i:=0 to dm.ibqry1.FieldCount-1 do
+    form3.listbox1.items.add(dm.ibqry1.Fields[i].FieldName)  ;
+  if form3.ShowModal=mrOk then
 //if form3.ShowModal=mrOk then DM.ibtbl1.Post
 //else    DM.ibtbl1.Cancel;
 end;
@@ -488,7 +502,7 @@ begin
    proc:=1
   else
   proc:=0  ;
- dm.ibqry1.SQL.Text:='select * from requests where processed= '+IntToStr(proc)+' order by '+Edt1.Text;
+ dm.ibqry1.SQL.Text:='select '+columns+' from requests where processed= '+IntToStr(proc)+' order by '+Edt1.Text;
  dm.ibqry1.Open;
  setdescription
 end;
@@ -516,6 +530,27 @@ if CheckBox1.Checked then
  dm.ibqry1.Open;
  setdescription
 //select * from requests where upper(requests.fioorg)  containing upper('кова') order by requests.fioorg
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+ var
+  XLApp:Variant;
+  maxrow,maxcolumn:integer;
+  fiostr,datebstr:String;
+begin
+    opendialog1.InitialDir:=ExtractFilePath(application.ExeName);
+    if opendialog1.Execute then begin
+        XLApp:=CreateOleObject('Excel.Application');
+        XLApp.DisplayAlerts:=false;
+        XLApp.Workbooks.Open(OpenDialog1.FileName);
+        maxcolumn:=XLApp.Workbooks[1].WorkSheets[1].UsedRange.Columns.count;
+        maxrow:=XLApp.Workbooks[1].WorkSheets[1].UsedRange.Rows.count;
+        //str:=XLApp.Workbooks[1].WorkSheets[1].cells[1,1];
+        Form1.mmo1.Lines.add('Row:' +IntToStr(maxrow));
+        Form1.mmo1.Lines.add('Column:'+IntToStr(maxcolumn));
+        //Form1.mmo1.Lines.add(str);
+        XLApp.Workbooks.close;
+    end;
 end;
 
 end.
